@@ -790,6 +790,7 @@ skills:
   visibility: private
   supporting_files:
   - private-skills/rr-sync-dev/rr.zsh
+  - rr-sync-dev/rr.zsh
   requires_skills: []
   optional_skills: []
   referenced_skills: []
