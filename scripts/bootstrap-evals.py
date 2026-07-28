@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 from pathlib import Path
+import sys
 
 import yaml
 
@@ -91,20 +92,47 @@ def behavior_suite(name: str, positive: str) -> dict[str, object]:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
+    selection = parser.add_mutually_exclusive_group(required=True)
+    selection.add_argument("--skill", help="bootstrap one manifest skill")
+    selection.add_argument("--all-missing", action="store_true", help="create all absent suites")
+    parser.add_argument("--force", action="store_true", help="replace existing suites")
     args = parser.parse_args(argv)
     root = args.root
     manifest = yaml.safe_load((root / "skills-manifest.yaml").read_text(encoding="utf-8"))
-    for entry in manifest["skills"]:
+    entries = {
+        entry["name"]: entry
+        for entry in manifest.get("skills", [])
+        if isinstance(entry, dict) and isinstance(entry.get("name"), str)
+    }
+    if args.skill and args.skill not in entries:
+        print(f"unknown skill: {args.skill}", file=sys.stderr)
+        return 2
+    selected = [entries[args.skill]] if args.skill else list(entries.values())
+    for entry in selected:
         if entry.get("invocation") != "automatic":
             continue
         name = entry["name"]
+        if name not in SCENARIOS:
+            print(f"skipped: {name} (no bootstrap scenario)")
+            continue
         positive, collision = SCENARIOS[name]
         directory = root / "evals" / name
         directory.mkdir(parents=True, exist_ok=True)
-        (directory / "trigger.yaml").write_text(yaml.safe_dump(trigger_suite(name, entry["description"], positive, collision), sort_keys=False, allow_unicode=True), encoding="utf-8")
+        trigger = directory / "trigger.yaml"
+        if trigger.exists() and not args.force:
+            print(f"skipped: {trigger.relative_to(root)}")
+        else:
+            action = "replaced" if trigger.exists() else "created"
+            trigger.write_text(yaml.safe_dump(trigger_suite(name, entry["description"], positive, collision), sort_keys=False, allow_unicode=True), encoding="utf-8")
+            print(f"{action}: {trigger.relative_to(root)}")
         behavior = directory / "behaviour.yaml"
-        if name in BEHAVIOR and not behavior.exists():
-            behavior.write_text(yaml.safe_dump(behavior_suite(name, positive), sort_keys=False, allow_unicode=True), encoding="utf-8")
+        if name in BEHAVIOR:
+            if behavior.exists() and not args.force:
+                print(f"skipped: {behavior.relative_to(root)}")
+            else:
+                action = "replaced" if behavior.exists() else "created"
+                behavior.write_text(yaml.safe_dump(behavior_suite(name, positive), sort_keys=False, allow_unicode=True), encoding="utf-8")
+                print(f"{action}: {behavior.relative_to(root)}")
     return 0
 
 

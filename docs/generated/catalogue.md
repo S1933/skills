@@ -197,7 +197,7 @@ Use when setting up Claude Code hooks to prevent pushes or destructive Git opera
 - Optional skills: none
 - Commands: bash, python3
 - Compatibility: Requires Claude Code with Bash PreToolUse hooks and Python 3.
-- Main-file words: approximately 368
+- Main-file words: approximately 497
 
 ### `go-cli-conventions`
 
@@ -680,4 +680,4 @@ Use when syncing local project files to a configured development server through 
 - Optional skills: none
 - Commands: git, rsync, ssh, zsh
 - Compatibility: Environment-specific; requires Zsh, Git, rsync, SSH, and local RR_* configuration.
-- Main-file words: approximately 317
+- Main-file words: approximately 389

@@ -208,6 +208,47 @@ def markdown_files(skill_directory: Path) -> list[Path]:
     return sorted(path for path in skill_directory.rglob("*.md") if "__pycache__" not in path.parts)
 
 
+VALID_VISIBILITIES = {"public", "private"}
+VALID_INVOCATIONS = {"automatic", "manual"}
+VALID_CLIENTS = {"agent-skills", "claude-code", "codex", "local-shell", "opencode"}
+LIST_FIELDS = {
+    "clients", "supporting_files", "requires_skills", "optional_skills",
+    "referenced_skills", "requires_tools", "requires_commands", "aliases",
+}
+
+
+def validate_manifest_entry(
+    entry: dict[str, object], root: Path, manifest_path: Path, diagnostics: list[Diagnostic]
+) -> bool:
+    """Validate scalar/collection types and return whether its path is safe to inspect."""
+    name = entry.get("name")
+    raw_path = entry.get("path")
+    for field in ("name", "path", "description", "invocation", "visibility"):
+        if not isinstance(entry.get(field), str) or not str(entry[field]).strip():
+            diagnostics.append(diagnostic("E042_MANIFEST_SCHEMA", manifest_path, f"{field} must be a non-empty string"))
+    for field in LIST_FIELDS:
+        value = entry.get(field, [])
+        if not isinstance(value, list) or any(not isinstance(item, str) for item in value):
+            diagnostics.append(diagnostic("E042_MANIFEST_SCHEMA", manifest_path, f"{name or '<unknown>'}.{field} must be a list of strings"))
+    clients = entry.get("clients")
+    if isinstance(clients, list) and any(client not in VALID_CLIENTS for client in clients):
+        diagnostics.append(diagnostic("E042_MANIFEST_SCHEMA", manifest_path, f"{name or '<unknown>'}.clients contains an unknown value"))
+    if entry.get("visibility") not in VALID_VISIBILITIES:
+        diagnostics.append(diagnostic("E042_MANIFEST_SCHEMA", manifest_path, f"{name or '<unknown>'}.visibility must be public or private"))
+    if entry.get("invocation") not in VALID_INVOCATIONS:
+        diagnostics.append(diagnostic("E042_MANIFEST_SCHEMA", manifest_path, f"{name or '<unknown>'}.invocation must be automatic or manual"))
+    notes = entry.get("dependency_notes", {})
+    if not isinstance(notes, dict) or any(not isinstance(key, str) or not isinstance(value, str) for key, value in notes.items()):
+        diagnostics.append(diagnostic("E042_MANIFEST_SCHEMA", manifest_path, f"{name or '<unknown>'}.dependency_notes must map strings to strings"))
+    if not isinstance(raw_path, str):
+        return False
+    candidate = Path(raw_path)
+    if candidate.is_absolute() or not (root / candidate).resolve().is_relative_to(root):
+        diagnostics.append(diagnostic("E042_MANIFEST_SCHEMA", manifest_path, f"{name or '<unknown>'}.path must stay inside the repository"))
+        return False
+    return True
+
+
 def validate_links(path: Path, root: Path, diagnostics: list[Diagnostic]) -> None:
     text = path.read_text(encoding="utf-8")
     searchable = FENCED_CODE.sub(
@@ -525,7 +566,13 @@ def validate_catalogue(root: Path | str) -> list[Diagnostic]:
         )
         return diagnostics
 
+    invalid_entries = sum(not isinstance(entry, dict) for entry in manifest["skills"])
+    if invalid_entries:
+        diagnostics.append(
+            diagnostic("E042_MANIFEST_SCHEMA", manifest_path, "each manifest skill must be a mapping")
+        )
     entries = [entry for entry in manifest["skills"] if isinstance(entry, dict)]
+    safe_paths = {id(entry): validate_manifest_entry(entry, root, manifest_path, diagnostics) for entry in entries}
     names = [entry.get("name") for entry in entries if isinstance(entry.get("name"), str)]
     known_names = set(names)
     aliases = [
@@ -558,9 +605,21 @@ def validate_catalogue(root: Path | str) -> list[Diagnostic]:
                 diagnostic("E042_MANIFEST_SCHEMA", manifest_path, "each skill needs string name and path")
             )
             continue
+        if not safe_paths[id(entry)]:
+            continue
         listed_paths.add(raw_path)
         skill_directory = root / raw_path
         skill_directories.append(skill_directory)
+        if skill_directory.exists():
+            for candidate in skill_directory.rglob("*"):
+                if candidate.is_symlink() and not candidate.resolve().is_relative_to(root):
+                    diagnostics.append(
+                        diagnostic(
+                            "E027_SYMLINK_OUTSIDE",
+                            candidate.relative_to(root),
+                            f"symlink escapes repository: {candidate.readlink()}",
+                        )
+                    )
         skill_file = skill_directory / "SKILL.md"
         if not skill_file.exists():
             diagnostics.append(
@@ -608,17 +667,17 @@ def validate_catalogue(root: Path | str) -> list[Diagnostic]:
             if isinstance(description, str):
                 descriptions.append((name, description, skill_file.relative_to(root)))
 
-        for supporting in entry.get("supporting_files", []):
+        supporting_files = entry.get("supporting_files", [])
+        if not isinstance(supporting_files, list):
+            supporting_files = []
+        for supporting in supporting_files:
             supporting_path = root / supporting if isinstance(supporting, str) else None
-            if supporting_path is not None and not supporting_path.exists():
+            if supporting_path is not None and Path(supporting).is_absolute():
                 diagnostics.append(
-                    diagnostic(
-                        "E014_SUPPORTING_FILE_MISSING",
-                        manifest_path,
-                        f"supporting file does not exist: {supporting}",
-                    )
+                    diagnostic("E042_MANIFEST_SCHEMA", manifest_path, f"unsafe supporting file path: {supporting}")
                 )
-            elif (
+                continue
+            if (
                 supporting_path is not None
                 and supporting_path.is_symlink()
                 and not supporting_path.resolve().is_relative_to(root)
@@ -630,7 +689,37 @@ def validate_catalogue(root: Path | str) -> list[Diagnostic]:
                         f"supporting-file symlink escapes repository: {supporting_path.readlink()}",
                     )
                 )
-
+                continue
+            if supporting_path is not None and (
+                not supporting_path.resolve().is_relative_to(root)
+            ):
+                diagnostics.append(
+                    diagnostic("E042_MANIFEST_SCHEMA", manifest_path, f"unsafe supporting file path: {supporting}")
+                )
+                continue
+            if supporting_path is not None and not supporting_path.exists():
+                diagnostics.append(
+                    diagnostic(
+                        "E014_SUPPORTING_FILE_MISSING",
+                        manifest_path,
+                        f"supporting file does not exist: {supporting}",
+                    )
+                )
+            elif supporting_path is not None:
+                allowed_roots = (
+                    skill_directory.resolve(),
+                    (root / "references").resolve(),
+                    (root / "tests").resolve(),
+                    (root / name).resolve(),
+                )
+                if not any(supporting_path.resolve().is_relative_to(allowed) for allowed in allowed_roots):
+                    diagnostics.append(
+                        diagnostic(
+                            "E043_PATH_OUTSIDE_SKILL",
+                            manifest_path,
+                            f"supporting file is outside the skill or shared areas: {supporting}",
+                        )
+                    )
         visibility = str(entry.get("visibility", "public"))
         raw_word_budget = entry.get("word_budget")
         word_budget = (
@@ -660,7 +749,10 @@ def validate_catalogue(root: Path | str) -> list[Diagnostic]:
             graphviz_blocks.extend((markdown, block) for block in validate_examples(markdown, root, diagnostics))
 
         for field in ("requires_skills", "optional_skills", "referenced_skills"):
-            for dependency in entry.get(field, []):
+            dependencies = entry.get(field, [])
+            if not isinstance(dependencies, list):
+                continue
+            for dependency in dependencies:
                 if isinstance(dependency, str) and dependency not in known_names:
                     diagnostics.append(
                         diagnostic(

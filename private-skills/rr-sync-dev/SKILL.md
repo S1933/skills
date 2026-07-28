@@ -22,8 +22,12 @@ before sourcing the function. Do not commit the resolved host or path.
 # Explicit files or directories
 rr chemin/vers/fichier.php autre/dossier/
 
-# Change project (first arg = project name under <remote-project-root>)
-rr tmgmt chemin/vers/fichier.php
+# Select a project explicitly
+rr --project tmgmt chemin/vers/fichier.php
+rr -p tmgmt chemin/vers/fichier.php
+
+# Preview without prompting or transferring
+rr --dry-run chemin/vers/fichier.php
 
 # No args: sync everything from git status
 rr
@@ -31,18 +35,24 @@ rr
 
 ## Behaviour
 
-1. **First arg** → project name under `<remote-project-root>` (default from
-   `$RR_DEFAULT_PROJECT`). Remaining args → file list.
-2. **No file args** → file list built from `git status --porcelain`.
+1. `-p` / `--project` selects a project; otherwise `$RR_DEFAULT_PROJECT` is used.
+   Every positional argument is a file or directory.
+2. **No file args** → file list built from NUL-delimited
+   `git status --porcelain=v1 -z`, including safe handling of spaces, Unicode,
+   copies and renames. The new path is used for renames.
 3. File list is printed, then confirmation prompt `(y/N)` — only `y`/`Y` proceeds.
-4. Each file synced with `rsync -avz`:
+4. Each file is synced after shell-escaping the remote destination and using
+   `--` before rsync operands:
    - **Directory** → contents synced (`trailing /` on source).
    - **File** → direct sync.
    - **Missing locally** → skipped with `⚠️ Missing:` (e.g. deleted files from git status — deletions are NOT propagated).
+5. `--dry-run` prints the resolved project and files without prompting or
+   invoking `rsync`.
 
 ## Pitfalls
 
-- Paths are relative to the **current directory**. Run from repo root so git paths match the remote tree.
+- Explicit paths are resolved from the current directory, confined to the Git
+  working tree, and mapped to repository-relative remote destinations.
 - Sync is **one-way** (local → remote), no `--delete`. Deleted local files are NOT removed remotely.
 - For bidirectional sync, use a dedicated bidirectional synchronisation tool.
 
@@ -61,3 +71,4 @@ source ~/.claude/skills/rr-sync-dev/rr.zsh
 | `⚠️ Missing: …` | File listed by git status was deleted locally; sync does not propagate deletions |
 | `ssh: Could not resolve hostname` | `$RR_REMOTE_HOST` is wrong or unavailable |
 | `rsync: change_dir … failed` | Project directory does not exist under `$RR_REMOTE_PROJECT_ROOT` |
+| `Git working tree required …` | `rr` was called without files outside a Git working tree |

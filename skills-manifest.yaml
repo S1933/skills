@@ -348,6 +348,7 @@ skills:
   - git-guardrails-claude-code/tests/allowed.txt
   - git-guardrails-claude-code/tests/blocked.txt
   - git-guardrails-claude-code/tests/test-guardrail.sh
+  - git-guardrails-claude-code/tests/test_classifier.py
   requires_skills: []
   optional_skills: []
   referenced_skills: []
@@ -359,7 +360,7 @@ skills:
   - Claude Code PreToolUse hooks
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 368
+  approximate_word_count: 497
   compatibility: Requires Claude Code with Bash PreToolUse hooks and Python 3.
 - name: go-cli-conventions
   path: go-cli-conventions
@@ -791,6 +792,7 @@ skills:
   supporting_files:
   - private-skills/rr-sync-dev/rr.zsh
   - rr-sync-dev/rr.zsh
+  - tests/test_rr_sync_dev.py
   requires_skills: []
   optional_skills: []
   referenced_skills: []
@@ -805,7 +807,7 @@ skills:
   environment_assumptions:
   - A separately configured SSH host and remote project root.
   aliases: []
-  approximate_word_count: 317
+  approximate_word_count: 389
   compatibility: Environment-specific; requires Zsh, Git, rsync, SSH, and local RR_* configuration.
 - name: schema-validation
   path: schema-validation
