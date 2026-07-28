@@ -167,7 +167,7 @@ Contrib actions live in `CDSPUBLIC/stash_ovh_net/cds/cds-ovh-contrib/` and are r
 | `library/trivy-scan` | Trivy security scan |
 
 **Usage:**
-```yaml
+```text
 - uses: library/bitbucket-create-pr
   with:
     title: "My PR"

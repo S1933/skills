@@ -189,7 +189,7 @@ inputs:
 
 **Bash boolean checks:**
 
-```yaml
+```text
 # In step condition (CDS expression)
 if: ${{ inputs.auto-detect == 'true' }}
 
@@ -201,7 +201,7 @@ tar -x ${TAR_VERBOSE} -f archive.tar.gz
 
 ## Cross-Repository References
 
-```yaml
+```text
 # Action from same project, different repo
 - uses: shared-actions/my-action
 

@@ -92,7 +92,7 @@ jobs:
 
 ## Triggers (`on:`)
 
-```yaml
+```text
 # Simple
 on: [push]
 
@@ -248,7 +248,7 @@ steps:
 
 ## Variable Export & Retrieval
 
-```yaml
+```text
 # Export in bash
 worker export <key> <value>
 
@@ -417,7 +417,7 @@ CDS contexts auto-convert to uppercase environment variables in bash:
 
 ### Functions
 
-```yaml
+```text
 # Control flow
 ${{ success() }}    # All previous succeeded
 ${{ failure() }}    # Any previous failed

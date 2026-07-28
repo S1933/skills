@@ -23,7 +23,7 @@ For the full expression functions reference, see [Core Syntax > Expression Synta
 
 ### Advanced `hashFiles` Patterns
 
-```yaml
+```text
 # Exclusion patterns in hashFiles
 ${{ hashFiles('**/*.go', '!**/vendor/**') }}
 ${{ hashFiles('**/package-lock.json') }}

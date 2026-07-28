@@ -124,7 +124,7 @@ For full custom action syntax, see [Actions, Models & Templates > Custom Actions
 
 ### Variable Export
 
-```yaml
+```text
 - id: Build
   run: |-
     #!/usr/bin/env bash
