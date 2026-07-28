@@ -179,7 +179,11 @@ skills:
   visibility: public
   supporting_files: []
   requires_skills: []
-  optional_skills: []
+  optional_skills:
+  - domain-modeling
+  - grilling
+  - prototype
+  - to-prd
   referenced_skills:
   - grilling
   - prototype
@@ -280,8 +284,12 @@ skills:
   - agent-skills
   visibility: public
   supporting_files: []
-  requires_skills: []
-  optional_skills: []
+  requires_skills:
+  - finishing-a-development-branch
+  - using-git-worktrees
+  optional_skills:
+  - subagent-driven-development
+  - writing-plans
   referenced_skills:
   - finishing-a-development-branch
   - subagent-driven-development
@@ -289,7 +297,8 @@ skills:
   - using-superpowers
   - writing-plans
   requires_tools: []
-  requires_commands: []
+  requires_commands:
+  - git
   client_features: []
   environment_assumptions: []
   aliases: []
@@ -385,7 +394,8 @@ skills:
   - agent-skills
   visibility: public
   supporting_files: []
-  requires_skills: []
+  requires_skills:
+  - grilling
   optional_skills: []
   referenced_skills:
   - grilling
@@ -404,7 +414,9 @@ skills:
   - agent-skills
   visibility: public
   supporting_files: []
-  requires_skills: []
+  requires_skills:
+  - domain-modeling
+  - grilling
   optional_skills: []
   referenced_skills:
   - domain-modeling
@@ -457,19 +469,29 @@ skills:
   description: Use when explicitly implementing work from an approved PRD, specification, or issue set.
   invocation: manual
   clients:
-  - agent-skills
+  - claude-code
+  - codex
+  - opencode
   visibility: public
   supporting_files: []
-  requires_skills: []
+  requires_skills:
+  - requesting-code-review
+  - test-driven-development
+  - verification-before-completion
   optional_skills: []
   referenced_skills: []
-  requires_tools: []
-  requires_commands: []
-  client_features: []
+  requires_tools:
+  - Bash
+  - Edit
+  - Read
+  requires_commands:
+  - git
+  client_features:
+  - subagents
   environment_assumptions: []
   aliases: []
   approximate_word_count: 70
-  compatibility: Agent Skills compatible.
+  compatibility: Requires a client with repository editing, command execution, and subagent review support.
 - name: improve
   path: improve
   description: Use when surveying a codebase for prioritized improvement opportunities across correctness, security, performance, testing, maintainability, developer experience, migrations, or product direction.
@@ -500,8 +522,11 @@ skills:
   visibility: public
   supporting_files:
   - improve-codebase-architecture/HTML-REPORT.md
-  requires_skills: []
-  optional_skills: []
+  requires_skills:
+  - codebase-design
+  - grilling
+  optional_skills:
+  - domain-modeling
   referenced_skills:
   - codebase-design
   - domain-modeling
@@ -786,8 +811,15 @@ skills:
   - subagent-driven-development/scripts/sdd-workspace
   - subagent-driven-development/scripts/task-brief
   - subagent-driven-development/task-reviewer-prompt.md
-  requires_skills: []
-  optional_skills: []
+  requires_skills:
+  - finishing-a-development-branch
+  - requesting-code-review
+  - test-driven-development
+  - using-git-worktrees
+  optional_skills:
+  - executing-plans
+  - implement
+  - writing-plans
   referenced_skills:
   - executing-plans
   - finishing-a-development-branch
@@ -799,6 +831,7 @@ skills:
   requires_tools: []
   requires_commands:
   - bash
+  - git
   client_features:
   - subagents
   environment_assumptions: []
@@ -823,8 +856,10 @@ skills:
   - systematic-debugging/test-pressure-1.md
   - systematic-debugging/test-pressure-2.md
   - systematic-debugging/test-pressure-3.md
-  requires_skills: []
-  optional_skills: []
+  requires_skills:
+  - test-driven-development
+  optional_skills:
+  - verification-before-completion
   referenced_skills:
   - test-driven-development
   - verification-before-completion
@@ -884,7 +919,8 @@ skills:
   visibility: public
   supporting_files: []
   requires_skills: []
-  optional_skills: []
+  optional_skills:
+  - triage
   referenced_skills:
   - triage
   requires_tools: []
@@ -904,7 +940,8 @@ skills:
   visibility: public
   supporting_files: []
   requires_skills: []
-  optional_skills: []
+  optional_skills:
+  - triage
   referenced_skills:
   - triage
   requires_tools: []
@@ -926,7 +963,9 @@ skills:
   - triage/AGENT-BRIEF.md
   - triage/OUT-OF-SCOPE.md
   requires_skills: []
-  optional_skills: []
+  optional_skills:
+  - domain-modeling
+  - grilling
   referenced_skills:
   - domain-modeling
   - grilling
@@ -986,7 +1025,10 @@ skills:
   - using-superpowers/references/codex-tools.md
   - using-superpowers/references/pi-tools.md
   requires_skills: []
-  optional_skills: []
+  optional_skills:
+  - brainstorming
+  - codex
+  - systematic-debugging
   referenced_skills:
   - brainstorming
   - codex
@@ -1026,7 +1068,10 @@ skills:
   supporting_files:
   - writing-plans/plan-document-reviewer-prompt.md
   requires_skills: []
-  optional_skills: []
+  optional_skills:
+  - executing-plans
+  - subagent-driven-development
+  - using-git-worktrees
   referenced_skills:
   - executing-plans
   - subagent-driven-development
@@ -1052,8 +1097,10 @@ skills:
   - writing-skills/persuasion-principles.md
   - writing-skills/render-graphs.js
   - writing-skills/testing-skills-with-subagents.md
-  requires_skills: []
-  optional_skills: []
+  requires_skills:
+  - test-driven-development
+  optional_skills:
+  - systematic-debugging
   referenced_skills:
   - systematic-debugging
   - test-driven-development

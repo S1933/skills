@@ -416,6 +416,72 @@ def dependency_cycles(entries: list[dict[str, object]]) -> list[list[str]]:
     return cycles
 
 
+def clients_are_compatible(
+    requiring_entry: dict[str, object], required_entry: dict[str, object]
+) -> bool:
+    """Return whether a required skill is available to at least one caller client."""
+    requiring_clients = {
+        client for client in requiring_entry.get("clients", []) if isinstance(client, str)
+    }
+    required_clients = {
+        client for client in required_entry.get("clients", []) if isinstance(client, str)
+    }
+    return "agent-skills" in required_clients or bool(requiring_clients & required_clients)
+
+
+def validate_dependency_contracts(
+    entries: list[dict[str, object]], manifest_path: Path, diagnostics: list[Diagnostic]
+) -> None:
+    entries_by_name = {
+        entry["name"]: entry for entry in entries if isinstance(entry.get("name"), str)
+    }
+    for entry in entries:
+        name = entry.get("name")
+        if not isinstance(name, str):
+            continue
+        notes = entry.get("dependency_notes", {})
+        if not isinstance(notes, dict):
+            diagnostics.append(
+                diagnostic(
+                    "E042_MANIFEST_SCHEMA",
+                    manifest_path,
+                    f"{name}.dependency_notes must be a mapping",
+                )
+            )
+            notes = {}
+
+        for dependency_name in entry.get("requires_skills", []):
+            if not isinstance(dependency_name, str):
+                continue
+            dependency = entries_by_name.get(dependency_name)
+            if dependency is None:
+                continue
+
+            explanation = notes.get(dependency_name)
+            if (
+                entry.get("invocation") == "automatic"
+                and dependency.get("invocation") == "manual"
+                and (not isinstance(explanation, str) or not explanation.strip())
+            ):
+                diagnostics.append(
+                    diagnostic(
+                        "E028_MANUAL_DEPENDENCY",
+                        manifest_path,
+                        f"automatic skill {name!r} requires manual skill {dependency_name!r} "
+                        "without a dependency_notes explanation",
+                    )
+                )
+
+            if not clients_are_compatible(entry, dependency):
+                diagnostics.append(
+                    diagnostic(
+                        "E029_INCOMPATIBLE_DEPENDENCY",
+                        manifest_path,
+                        f"{name!r} and required skill {dependency_name!r} have no compatible client",
+                    )
+                )
+
+
 def apply_exceptions(root: Path, diagnostics: list[Diagnostic]) -> list[Diagnostic]:
     path = root / "validation-exceptions.yaml"
     if not path.exists():
@@ -569,10 +635,7 @@ def validate_catalogue(root: Path | str) -> list[Diagnostic]:
                     )
                 )
 
-    for entry in entries:
-        for dependency in entry.get("requires_skills", []):
-            if dependency not in known_names:
-                continue
+    validate_dependency_contracts(entries, manifest_path, diagnostics)
     for cycle in dependency_cycles(entries):
         diagnostics.append(
             diagnostic("E023_DEPENDENCY_CYCLE", manifest_path, " -> ".join(cycle))
