@@ -274,7 +274,7 @@ printf '%s' "${REPORT}" | worker output report
     submodules: true           # Optional: true or 'recursive'
     depth: 1                   # Optional: shallow clone depth
     sha: abc123                # Optional: specific commit SHA
-    git-url: ssh://git@stash.ovh.net:7999/team/other-repo.git  # Optional: cross-repo checkout
+    git-url: ssh://git@<git-host>:7999/team/other-repo.git  # Optional: cross-repo checkout
 # For external repositories, set sha: HEAD unless you intentionally checkout a known target-repo SHA.
 # submodules accepts true or recursive; depth enables shallow clones.
 

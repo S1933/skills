@@ -1,8 +1,16 @@
 rr() {
-  local PROJECT="${1:-ocms}"
-  local REMOTE_HOST="gw2sdev-docker.ovh.net"
-  local REMOTE_ROOT="/home/jnuel/sshfs/$PROJECT"
+  local PROJECT="${1:-${RR_DEFAULT_PROJECT:-}}"
+  local REMOTE_HOST="${RR_REMOTE_HOST:-}"
+  local REMOTE_PROJECT_ROOT="${RR_REMOTE_PROJECT_ROOT:-}"
+  local REMOTE_ROOT
   local files=()
+
+  if [[ -z "$PROJECT" || -z "$REMOTE_HOST" || -z "$REMOTE_PROJECT_ROOT" ]]; then
+    echo "Configuration required: RR_DEFAULT_PROJECT, RR_REMOTE_HOST, and RR_REMOTE_PROJECT_ROOT" >&2
+    return 2
+  fi
+
+  REMOTE_ROOT="${REMOTE_PROJECT_ROOT%/}/$PROJECT"
 
   shift 2>/dev/null || true
 

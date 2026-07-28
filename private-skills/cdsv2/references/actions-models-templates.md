@@ -436,7 +436,7 @@ from: DTCORE/stash_ovh_net/dtcore/cicd-tools/my-template@master
 
 parameters:
   team_name: "my-team"
-  source_repository_git_url: "ssh://git@stash.ovh.net:7999/dtcore/my-repo.git"
+  source_repository_git_url: "ssh://git@<git-host>:7999/team/my-repo.git"
   enable_tests: "true"
 ```
 

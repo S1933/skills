@@ -1,0 +1,994 @@
+schema_version: 1
+catalogue_status: stabilization
+skills:
+- name: adapter-pattern
+  path: adapter-pattern
+  description: Use when one domain model must interoperate with multiple external APIs, file formats, providers, CLIs, storage engines, or versioned protocols without leaking vendor details into core logic.
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files:
+  - adapter-pattern/agents/openai.yaml
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 386
+- name: atomic-file-write
+  path: atomic-file-write
+  description: Use when replacing configuration, state, generated, or user-owned files where crashes, partial writes, permissions, concurrent readers, or durability can corrupt observable state.
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files:
+  - atomic-file-write/agents/openai.yaml
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 408
+- name: binary-distribution
+  path: binary-distribution
+  description: Use when releasing compiled command-line tools across operating systems or architectures, including version metadata, archives, checksums, signing, installers, and reproducible release automation.
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files:
+  - binary-distribution/agents/openai.yaml
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 359
+- name: brainstorming
+  path: brainstorming
+  description: You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation.
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files:
+  - brainstorming/scripts/frame-template.html
+  - brainstorming/scripts/helper.js
+  - brainstorming/scripts/server.cjs
+  - brainstorming/scripts/start-server.sh
+  - brainstorming/scripts/stop-server.sh
+  - brainstorming/spec-document-reviewer-prompt.md
+  - brainstorming/visual-companion.md
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands:
+  - node
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 1553
+- name: caveman
+  path: caveman
+  description: Ultra-compressed communication mode. Cuts token usage ~75% by dropping filler, articles, and pleasantries while keeping full technical accuracy. Use when user says "caveman mode", "talk like caveman", "use caveman", "less tokens", "be brief", or invokes /caveman.
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files: []
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 274
+- name: cdsv2
+  path: private-skills/cdsv2
+  description: Expert knowledge for OVH's CDSv2 CI/CD platform. Use when creating, editing, testing, and troubleshooting or reviewing `.cds/` YAML files, including workflows, actions, worker models, workflow templates, gates, matrices, services, Artifactory/Arsenal integrations, concurrency, and CDS expressions. Use for CDSv2-specific validation or migration whenever GitHub Actions or CDS v1 syntax might be confused with CDSv2.
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: private
+  supporting_files:
+  - private-skills/cdsv2/references/actions-models-templates.md
+  - private-skills/cdsv2/references/conventions.md
+  - private-skills/cdsv2/references/core-syntax.md
+  - private-skills/cdsv2/references/runtime.md
+  - private-skills/cdsv2/references/workflow-patterns.md
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands:
+  - cdsctl
+  client_features: []
+  environment_assumptions:
+  - Access to an OVH CDSv2 installation when runtime validation is required.
+  aliases: []
+  approximate_word_count: 1015
+- name: codebase-design
+  path: codebase-design
+  description: Shared vocabulary for designing deep modules. Use when the user wants to design or improve a module's interface, find deepening opportunities, decide where a seam goes, make code more testable or AI-navigable, or when another skill needs the deep-module vocabulary.
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files:
+  - codebase-design/DEEPENING.md
+  - codebase-design/DESIGN-IT-TWICE.md
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 865
+- name: codex
+  path: codex
+  description: Use when Codex needs a second opinion, verification, or deeper research on technical matters. This includes researching how a library or API works, confirming implementation approaches, verifying technical assumptions, understanding complex code patterns, or getting alternative perspectives on architectural decisions. The agent leverages the Codex CLI to provide independent analysis and validation.
+  invocation: automatic
+  clients:
+  - codex
+  visibility: public
+  supporting_files:
+  - codex/tests/test_skill_policy.py
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands:
+  - codex
+  client_features:
+  - Codex CLI
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 1096
+- name: decision-mapping
+  path: decision-mapping
+  description: Turn a loose idea into a sequenced map of investigation tickets, then drive them to resolution one at a time.
+  invocation: manual
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files: []
+  requires_skills: []
+  optional_skills: []
+  referenced_skills:
+  - grilling
+  - prototype
+  - to-prd
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 593
+- name: design-an-interface
+  path: design-an-interface
+  description: Generate multiple radically different interface designs for a module using parallel sub-agents. Use when user wants to design an API, explore interface options, compare module shapes, or mentions "design it twice".
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files: []
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 493
+- name: dispatching-parallel-agents
+  path: dispatching-parallel-agents
+  description: Use when facing 2+ independent tasks that can be worked on without shared state or sequential dependencies
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files: []
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 950
+- name: domain-modeling
+  path: domain-modeling
+  description: Build and sharpen a project's domain model. Use when the user wants to pin down domain terminology or a ubiquitous language, record an architectural decision, or when another skill needs to maintain the domain model.
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files:
+  - domain-modeling/ADR-FORMAT.md
+  - domain-modeling/CONTEXT-FORMAT.md
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 515
+- name: embedded-fixtures
+  path: embedded-fixtures
+  description: Use when binaries or tests need deterministic templates, schemas, migrations, defaults, or sample files packaged with the executable through Go embed or an equivalent resource mechanism.
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files:
+  - embedded-fixtures/agents/openai.yaml
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 345
+- name: executing-plans
+  path: executing-plans
+  description: Use when you have a written implementation plan to execute in a separate session with review checkpoints
+  invocation: manual
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files: []
+  requires_skills: []
+  optional_skills: []
+  referenced_skills:
+  - finishing-a-development-branch
+  - subagent-driven-development
+  - using-git-worktrees
+  - using-superpowers
+  - writing-plans
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 379
+- name: finishing-a-development-branch
+  path: finishing-a-development-branch
+  description: Use when implementation is complete, all tests pass, and you need to decide how to integrate the work - guides completion of development work by presenting structured options for merge, PR, or cleanup
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files: []
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 1042
+- name: git-guardrails-claude-code
+  path: git-guardrails-claude-code
+  description: Use when setting up Claude Code hooks to prevent pushes or destructive Git operations from running without user control.
+  invocation: automatic
+  clients:
+  - claude-code
+  visibility: public
+  supporting_files:
+  - git-guardrails-claude-code/scripts/block-dangerous-git.sh
+  - git-guardrails-claude-code/scripts/classify-git-command.py
+  - git-guardrails-claude-code/tests/allowed.txt
+  - git-guardrails-claude-code/tests/blocked.txt
+  - git-guardrails-claude-code/tests/test-guardrail.sh
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands:
+  - bash
+  - python3
+  client_features:
+  - Claude Code PreToolUse hooks
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 357
+- name: go-cli-conventions
+  path: go-cli-conventions
+  description: Use when creating, extending, or reviewing Go 1.24+ command-line applications, especially Cobra commands, flags, exit behavior, configuration, and testable CLI boundaries.
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files:
+  - go-cli-conventions/agents/openai.yaml
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 371
+- name: golden-file-testing
+  path: golden-file-testing
+  description: Use when testing generated text, configuration, serialization, templates, compiler output, or other stable artifacts whose complete shape matters more than isolated fields.
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files:
+  - golden-file-testing/agents/openai.yaml
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 369
+- name: grill-me
+  path: grill-me
+  description: A relentless interview to sharpen a plan or design.
+  invocation: manual
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files: []
+  requires_skills: []
+  optional_skills: []
+  referenced_skills:
+  - grilling
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 20
+- name: grill-with-docs
+  path: grill-with-docs
+  description: A relentless interview to sharpen a plan or design, which also creates docs (ADR's and glossary) as we go.
+  invocation: manual
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files: []
+  requires_skills: []
+  optional_skills: []
+  referenced_skills:
+  - domain-modeling
+  - grilling
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 34
+- name: grilling
+  path: grilling
+  description: Interview the user relentlessly about a plan or design. Use when the user wants to stress-test a plan before building, or uses any 'grill' trigger phrases.
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files: []
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 102
+- name: handoff
+  path: handoff
+  description: Compact the current conversation into a handoff document for another agent to pick up.
+  invocation: manual
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files: []
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 134
+- name: implement
+  path: implement
+  description: Implement a piece of work based on a PRD or set of issues.
+  invocation: manual
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files: []
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 70
+- name: improve
+  path: improve
+  description: Survey any codebase as a senior advisor and produce prioritized, self-contained implementation plans for OTHER models/agents to execute. Strictly read-only on source code — never implements, fixes, or refactors anything itself. Use when asked to audit a codebase, find improvement opportunities (bugs, security, performance, test coverage, tech debt, migrations, DX), suggest features or where to take the project next (roadmap, product direction), or generate handoff plans for another agent to implement. Unlike /tech-debt-audit (one broad debt report committed to the repo) and /improve-codebase-architecture (an architecture-only HTML report), the deliverable here is multiple self-contained per-opportunity handoff plans and the scope spans all improvement types.
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files:
+  - improve/references/audit-playbook.md
+  - improve/references/closing-the-loop.md
+  - improve/references/plan-template.md
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 2310
+- name: improve-codebase-architecture
+  path: improve-codebase-architecture
+  description: Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick. Narrowly about architectural depth (deep modules, seams) using the /codebase-design vocabulary — unlike /tech-debt-audit (broad debt report file) or /improve (self-contained handoff plans for another agent to execute).
+  invocation: manual
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files:
+  - improve-codebase-architecture/HTML-REPORT.md
+  requires_skills: []
+  optional_skills: []
+  referenced_skills:
+  - codebase-design
+  - domain-modeling
+  - grilling
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 829
+- name: jira
+  path: private-skills/jira
+  description: Use when a locally configured Jira CLI is required to inspect or mutate issues, comments, assignments, transitions, Tempo entries, or Confluence pages.
+  invocation: automatic
+  clients:
+  - local-shell
+  visibility: private
+  supporting_files: []
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands:
+  - jira
+  client_features:
+  - personal Jira CLI
+  environment_assumptions:
+  - A separately configured local Jira CLI and private Jira instance.
+  aliases: []
+  approximate_word_count: 1874
+- name: migrate-to-shoehorn
+  path: migrate-to-shoehorn
+  description: Migrate test files from `as` type assertions to @total-typescript/shoehorn. Use when user mentions shoehorn, wants to replace `as` in tests, or needs partial test data.
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files: []
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 415
+- name: ovhcloud-smoke-tests
+  path: private-skills/ovhcloud-smoke-tests
+  description: Workflow for fixing or updating OVHcloud smoke test patterns in the smoke-tests-patterns repo (ovhcloud.yml). Use when smoke tests fail with "Pattern ... NOT FOUND", or when the user wants to add/modify/work on smoke tests for www.ovhcloud.com pages.
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: private
+  supporting_files: []
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands:
+  - python3
+  client_features: []
+  environment_assumptions:
+  - Access to the target smoke-test repository and rendered site pages.
+  aliases: []
+  approximate_word_count: 532
+- name: prototype
+  path: prototype
+  description: Build a throwaway prototype to flesh out a design — a runnable terminal app for state/business-logic questions, or several radically different UI variations toggleable from one route.
+  invocation: manual
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files:
+  - prototype/LOGIC.md
+  - prototype/UI.md
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 501
+- name: qa
+  path: qa
+  description: Interactive QA session where user reports bugs or issues conversationally, and the agent files GitHub issues. Explores the codebase in the background for context and domain language. Use when user wants to report bugs, do QA, file issues conversationally, or mentions "QA session".
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files: []
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 803
+- name: receiving-code-review
+  path: receiving-code-review
+  description: Use when receiving code review feedback, before implementing suggestions, especially if feedback seems unclear or technically questionable - requires technical rigor and verification, not performative agreement or blind implementation. Governs how you respond to feedback you got — unlike /requesting-code-review (dispatches a reviewer subagent) and /review-scope (only gathers the diff to review).
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files: []
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 960
+- name: request-refactor-plan
+  path: request-refactor-plan
+  description: Create a detailed refactor plan with tiny commits via user interview, then file it as a GitHub issue. Use when user wants to plan a refactor, create a refactoring RFC, or break a refactor into safe incremental steps.
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files: []
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 441
+- name: requesting-code-review
+  path: requesting-code-review
+  description: Use when completing tasks, implementing major features, or before merging to verify work meets requirements. Dispatches a reviewer subagent with crafted context — unlike /review-scope (only gathers the diff to review) and /receiving-code-review (how to respond to feedback you got).
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files:
+  - requesting-code-review/code-reviewer.md
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 419
+- name: resolving-merge-conflicts
+  path: resolving-merge-conflicts
+  description: Use when you need to resolve an in-progress git merge/rebase conflict.
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files: []
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 134
+- name: review-scope
+  path: review-scope
+  description: Use at the start of any code review to establish the base branch and gather the full set of changes to review — committed, staged, unstaged, and relevant untracked work. A building block that only scopes the diff — unlike /requesting-code-review (dispatches a reviewer subagent) and /receiving-code-review (how to respond to feedback you got).
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files: []
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 191
+- name: rr-sync-dev
+  path: private-skills/rr-sync-dev
+  description: Use when syncing local project files to a configured development server through the rr Zsh function, or when rr produces unexpected results.
+  invocation: automatic
+  clients:
+  - local-shell
+  visibility: private
+  supporting_files:
+  - private-skills/rr-sync-dev/rr.zsh
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands:
+  - git
+  - rsync
+  - ssh
+  - zsh
+  client_features:
+  - interactive Zsh function
+  environment_assumptions:
+  - A separately configured SSH host and remote project root.
+  aliases: []
+  approximate_word_count: 306
+- name: schema-validation
+  path: schema-validation
+  description: Use when defining or reviewing validation for configuration files, API payloads, manifests, serialized models, cross-field invariants, or human-readable validation errors.
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files:
+  - schema-validation/agents/openai.yaml
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 400
+- name: setup-pre-commit
+  path: setup-pre-commit
+  description: Set up Husky pre-commit hooks with lint-staged (Prettier), type checking, and tests in the current repo. Use when user wants to add pre-commit hooks, set up Husky, configure lint-staged, or add commit-time formatting/typechecking/testing.
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files: []
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 333
+- name: subagent-driven-development
+  path: subagent-driven-development
+  description: Use when executing implementation plans with independent tasks in the current session
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files:
+  - subagent-driven-development/implementer-prompt.md
+  - subagent-driven-development/scripts/review-package
+  - subagent-driven-development/scripts/sdd-workspace
+  - subagent-driven-development/scripts/task-brief
+  - subagent-driven-development/task-reviewer-prompt.md
+  requires_skills: []
+  optional_skills: []
+  referenced_skills:
+  - executing-plans
+  - finishing-a-development-branch
+  - implement
+  - requesting-code-review
+  - test-driven-development
+  - using-git-worktrees
+  - writing-plans
+  requires_tools: []
+  requires_commands:
+  - bash
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 3083
+- name: systematic-debugging
+  path: systematic-debugging
+  description: Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files:
+  - systematic-debugging/CREATION-LOG.md
+  - systematic-debugging/condition-based-waiting-example.ts
+  - systematic-debugging/condition-based-waiting.md
+  - systematic-debugging/defense-in-depth.md
+  - systematic-debugging/find-polluter.sh
+  - systematic-debugging/root-cause-tracing.md
+  - systematic-debugging/test-academic.md
+  - systematic-debugging/test-pressure-1.md
+  - systematic-debugging/test-pressure-2.md
+  - systematic-debugging/test-pressure-3.md
+  requires_skills: []
+  optional_skills: []
+  referenced_skills:
+  - test-driven-development
+  - verification-before-completion
+  requires_tools: []
+  requires_commands:
+  - bash
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 1504
+- name: tech-debt-audit
+  path: tech-debt-audit
+  description: Thorough, user-invoked tech debt and architecture audit of the current codebase. Produces TECH_DEBT_AUDIT.md with file-cited findings, severity, effort estimates, and a required "looks bad but is actually fine" section. Use when the user asks for a debt audit, codebase health check, architecture review, or code quality assessment of an entire repo. Does not auto-invoke. Unlike /improve (read-only handoff plans for another agent to execute) and /improve-codebase-architecture (architecture-depth-only HTML report), this writes one broad debt report file into the repo.
+  invocation: manual
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files:
+  - tech-debt-audit/.gitignore
+  - tech-debt-audit/README.md
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 1951
+- name: test-driven-development
+  path: test-driven-development
+  description: Use when implementing any feature or bugfix, before writing implementation code
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files:
+  - test-driven-development/testing-anti-patterns.md
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 1496
+- name: to-issues
+  path: to-issues
+  description: Break a plan, spec, or PRD into independently-grabbable issues on the project issue tracker using tracer-bullet vertical slices.
+  invocation: manual
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files: []
+  requires_skills: []
+  optional_skills: []
+  referenced_skills:
+  - triage
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 533
+- name: to-prd
+  path: to-prd
+  description: Turn the current conversation into a PRD and publish it to the project issue tracker — no interview, just synthesis of what you've already discussed.
+  invocation: manual
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files: []
+  requires_skills: []
+  optional_skills: []
+  referenced_skills:
+  - triage
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 494
+- name: triage
+  path: triage
+  description: Move issues through a state machine of triage roles — categorise, reproduce, grill if needed, and write agent-ready briefs.
+  invocation: manual
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files:
+  - triage/AGENT-BRIEF.md
+  - triage/OUT-OF-SCOPE.md
+  requires_skills: []
+  optional_skills: []
+  referenced_skills:
+  - domain-modeling
+  - grilling
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 733
+- name: ubiquitous-language
+  path: ubiquitous-language
+  description: Extract a DDD-style ubiquitous language glossary from the current conversation, flagging ambiguities and proposing canonical terms. Saves to UBIQUITOUS_LANGUAGE.md. Use when user wants to define domain terms, build a glossary, harden terminology, create a ubiquitous language, or mentions "domain model" or "DDD".
+  invocation: manual
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files: []
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 703
+- name: using-git-worktrees
+  path: using-git-worktrees
+  description: Use when starting feature work that needs isolation from current workspace or before executing implementation plans - ensures an isolated workspace exists via native tools or git worktree fallback
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files: []
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 1154
+- name: using-superpowers
+  path: using-superpowers
+  description: Use when starting any conversation - establishes how to find and use skills, requiring skill invocation before ANY response including clarifying questions
+  invocation: manual
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files:
+  - using-superpowers/references/antigravity-tools.md
+  - using-superpowers/references/codex-tools.md
+  - using-superpowers/references/pi-tools.md
+  requires_skills: []
+  optional_skills: []
+  referenced_skills:
+  - brainstorming
+  - codex
+  - systematic-debugging
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 483
+- name: verification-before-completion
+  path: verification-before-completion
+  description: Use when about to claim work is complete, fixed, or passing, before committing or creating PRs - requires running verification commands and confirming output before making any success claims; evidence before assertions always
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files: []
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 668
+- name: writing-plans
+  path: writing-plans
+  description: Use when you have a spec or requirements for a multi-step task, before touching code
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files:
+  - writing-plans/plan-document-reviewer-prompt.md
+  requires_skills: []
+  optional_skills: []
+  referenced_skills:
+  - executing-plans
+  - subagent-driven-development
+  - using-git-worktrees
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 1068
+- name: writing-skills
+  path: writing-skills
+  description: Use when creating new skills, editing existing skills, or verifying skills work before deployment
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files:
+  - writing-skills/anthropic-best-practices.md
+  - writing-skills/examples/CLAUDE_MD_TESTING.md
+  - writing-skills/graphviz-conventions.dot
+  - writing-skills/persuasion-principles.md
+  - writing-skills/render-graphs.js
+  - writing-skills/testing-skills-with-subagents.md
+  requires_skills: []
+  optional_skills: []
+  referenced_skills:
+  - systematic-debugging
+  - test-driven-development
+  requires_tools: []
+  requires_commands:
+  - node
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 3807

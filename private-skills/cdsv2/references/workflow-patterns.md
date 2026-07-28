@@ -512,7 +512,7 @@ notify-webex:
           '{roomId: $roomId, markdown: $markdown}')
 
         HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
-          -X POST "https://gateway2.core-platform.eu.k8s.core.ovh.net/messages/${ROOM_ID}" \
+          -X POST "https://<notification-gateway>/messages/${ROOM_ID}" \
           -H "Content-Type: application/json;charset=UTF-8" \
           -H "X-Ovh-Gateway-Source: ${{ vars.[[.params.c3pbot_variableset]].gw_token_id }}" \
           -H "X-Ovh-Gateway-Token: ${{ vars.[[.params.c3pbot_variableset]].gw_token_secret }}" \

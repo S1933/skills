@@ -7,14 +7,16 @@ description: Workflow for fixing or updating OVHcloud smoke test patterns in the
 
 ## Context
 
-- Repo: `~/Projects/smoke-tests-patterns`, single file `ovhcloud.yml` (~400KB).
+- Repo: `<smoke-tests-repository>`, single file `ovhcloud.yml` (~400KB).
 - Each entry is a `url` + `pattern` pair under `blue_green_smoke_urls`:
   ```yaml
   -
     url: fr/domains/dnssec
     pattern: 'Protégez vos noms de domaine contre les attaques par usurpation'
   ```
-- The test does a **literal substring match** of `pattern` against the exported static HTML at `/var/www/ocms.ovhcloud.tools/ovh_static/export/html/ovhcloud/<locale>/<path>/index.html`. That export mirrors the live pages at `https://www.ovhcloud.com/<locale>/<path>/`.
+- The test does a **literal substring match** of `pattern` against the exported
+  static HTML at `<rendered-html-root>/<locale>/<path>/index.html`. That export
+  mirrors the corresponding live locale pages.
 - Mojibake in failure logs (`ProtÃ©gez`, `Â«`) is just the log viewer reading UTF-8 as Latin-1. The yml itself is clean UTF-8 — don't "fix" encoding.
 - Failures almost always mean the page was redesigned and the old text no longer exists.
 
@@ -30,18 +32,15 @@ Do not trust one locale per language and copy-paste:
 - Regional variants genuinely differ: `en-gb` said "Cheap domain name" while `en`/`en-ca` said "Affordable domain name"; `es` and `es-es` had different copy.
 - The full locale list typically seen: fr, en, en-gb, fr-ca, fr-ma, fr-sn, fr-tn, de, en-ca, asia, en-au, en-ie, en-sg, es-es, es, nl, it, pl, pt, en-in.
 
-Tooling constraints on this machine:
-- `curl` is denied by permission rules.
-- WebFetch passes pages through a small model that paraphrases and confuses `<title>` with `<h1>` — **never** use its output for exact-match patterns.
-- Use Python `urllib` (works). System Python fails SSL verification without certifi; use this fallback:
+Use a raw HTTP client that preserves the response bytes. Do not use a tool that
+paraphrases page content for exact-match patterns. Python `urllib` is one
+portable option:
 
 ```python
-import urllib.request, ssl
+import ssl
+import urllib.request
+
 ctx = ssl.create_default_context()
-try:
-    import certifi; ctx = ssl.create_default_context(cafile=certifi.where())
-except ImportError:
-    ctx.check_hostname = False; ctx.verify_mode = ssl.CERT_NONE
 req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
 html = urllib.request.urlopen(req, timeout=30, context=ctx).read().decode("utf-8")
 ```
@@ -75,4 +74,6 @@ Scripted edit is safest at this scale: for each line matching `url: <target>`, r
 
 ### 6. Commit
 
-Branch naming: `jnuel/<topic>` (e.g. `jnuel/update-smoke-test-dnssec`); PRs target `master`. Commit style: `fix: update smoke test patterns for <pages> pages`, body explaining the redesign. Commit only when the user asks; same for push.
+Follow the repository's current branch and base-branch conventions. Suggested
+commit style: `fix: update smoke test patterns for <pages> pages`, with a body
+explaining the redesign. Commit or push only when the user asks.

@@ -81,14 +81,18 @@ A personal collection of [Agent Skills](https://agentskills.io/specification) fo
 | [qa](qa/) | Conversational bug reporting that files GitHub issues with codebase context. |
 | [triage](triage/) **(manual)** | Move issues through a triage state machine into agent-ready briefs. |
 
-## Environment-specific (OVHcloud / personal)
+## Private and environment-specific
+
+These skills are kept under `private-skills/` so public-only installations can
+exclude them. Their machine-specific values belong in the ignored
+`.local/skills-environment.yaml` file.
 
 | Skill | When to use |
 |---|---|
-| [cdsv2](cdsv2/) | OVH CDSv2 CI/CD — authoring/validating `.cds/` YAML. |
-| [ovhcloud-smoke-tests](ovhcloud-smoke-tests/) | Fix/update smoke-test patterns for www.ovhcloud.com. |
-| [jira](jira/) | Manage Jira issues via the personal `jira` CLI. |
-| [rr-sync-dev](rr-sync-dev/) | Sync local files to the gw2sdev-docker dev server via the `rr` function. |
+| [cdsv2](private-skills/cdsv2/) | OVH CDSv2 CI/CD — authoring/validating `.cds/` YAML. |
+| [ovhcloud-smoke-tests](private-skills/ovhcloud-smoke-tests/) | Fix/update smoke-test patterns for www.ovhcloud.com. |
+| [jira](private-skills/jira/) | Manage Jira issues via a locally configured `jira` CLI. |
+| [rr-sync-dev](private-skills/rr-sync-dev/) | Sync local files to a configured development server via the `rr` function. |
 
 ## Meta & tooling
 
