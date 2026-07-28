@@ -66,6 +66,7 @@ skills:
   - agent-skills
   visibility: public
   supporting_files:
+  - brainstorming/references/full-guidance.md
   - brainstorming/scripts/frame-template.html
   - brainstorming/scripts/helper.js
   - brainstorming/scripts/server.cjs
@@ -83,7 +84,8 @@ skills:
   - optional visual companion
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 1561
+  word_budget: 500
+  approximate_word_count: 293
   compatibility: Agent Skills compatible; the optional visual companion requires Node.js and a local browser.
 - name: caveman
   path: caveman
@@ -114,6 +116,7 @@ skills:
   - private-skills/cdsv2/references/actions-models-templates.md
   - private-skills/cdsv2/references/conventions.md
   - private-skills/cdsv2/references/core-syntax.md
+  - private-skills/cdsv2/references/full-guidance.md
   - private-skills/cdsv2/references/runtime.md
   - private-skills/cdsv2/references/workflow-patterns.md
   requires_skills: []
@@ -127,7 +130,8 @@ skills:
   environment_assumptions:
   - Access to an OVH CDSv2 installation when runtime validation is required.
   aliases: []
-  approximate_word_count: 993
+  word_budget: 800
+  approximate_word_count: 255
   compatibility: Environment-specific; runtime validation requires access to OVH CDSv2 and cdsctl.
 - name: codebase-design
   path: codebase-design
@@ -139,6 +143,7 @@ skills:
   supporting_files:
   - codebase-design/DEEPENING.md
   - codebase-design/DESIGN-IT-TWICE.md
+  - codebase-design/references/full-guidance.md
   requires_skills: []
   optional_skills: []
   referenced_skills: []
@@ -147,7 +152,8 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 840
+  word_budget: 500
+  approximate_word_count: 251
   compatibility: Agent Skills compatible.
 - name: codex
   path: codex
@@ -157,6 +163,7 @@ skills:
   - codex
   visibility: public
   supporting_files:
+  - codex/references/full-guidance.md
   - codex/tests/test_skill_policy.py
   requires_skills: []
   optional_skills: []
@@ -168,7 +175,8 @@ skills:
   - Codex CLI
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 1074
+  word_budget: 500
+  approximate_word_count: 333
   compatibility: Requires the Codex CLI with exec and sandbox support.
 - name: decision-mapping
   path: decision-mapping
@@ -225,7 +233,8 @@ skills:
   - codex
   - opencode
   visibility: public
-  supporting_files: []
+  supporting_files:
+  - dispatching-parallel-agents/references/full-guidance.md
   requires_skills: []
   optional_skills: []
   referenced_skills: []
@@ -235,7 +244,8 @@ skills:
   - parallel subagents
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 958
+  word_budget: 500
+  approximate_word_count: 237
   compatibility: Requires a client with parallel subagent support.
 - name: domain-modeling
   path: domain-modeling
@@ -311,16 +321,19 @@ skills:
   clients:
   - agent-skills
   visibility: public
-  supporting_files: []
+  supporting_files:
+  - finishing-a-development-branch/references/full-guidance.md
   requires_skills: []
   optional_skills: []
   referenced_skills: []
   requires_tools: []
-  requires_commands: []
+  requires_commands:
+  - git
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 1039
+  word_budget: 800
+  approximate_word_count: 289
   compatibility: Requires Git; pull-request options require a configured repository host integration.
 - name: git-guardrails-claude-code
   path: git-guardrails-claude-code
@@ -404,7 +417,7 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 24
+  approximate_word_count: 25
   compatibility: Agent Skills compatible.
 - name: grill-with-docs
   path: grill-with-docs
@@ -426,7 +439,7 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 31
+  approximate_word_count: 32
   compatibility: Agent Skills compatible.
 - name: grilling
   path: grilling
@@ -490,7 +503,7 @@ skills:
   - subagents
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 70
+  approximate_word_count: 87
   compatibility: Requires a client with repository editing, command execution, and subagent review support.
 - name: improve
   path: improve
@@ -502,6 +515,7 @@ skills:
   supporting_files:
   - improve/references/audit-playbook.md
   - improve/references/closing-the-loop.md
+  - improve/references/full-guidance.md
   - improve/references/plan-template.md
   requires_skills: []
   optional_skills: []
@@ -511,7 +525,8 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 2238
+  word_budget: 800
+  approximate_word_count: 348
   compatibility: Requires repository read access; parallel subagent support is recommended.
 - name: improve-codebase-architecture
   path: improve-codebase-architecture
@@ -522,6 +537,7 @@ skills:
   visibility: public
   supporting_files:
   - improve-codebase-architecture/HTML-REPORT.md
+  - improve-codebase-architecture/references/full-guidance.md
   requires_skills:
   - codebase-design
   - grilling
@@ -537,7 +553,8 @@ skills:
   - local browser
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 812
+  word_budget: 800
+  approximate_word_count: 268
   compatibility: Requires repository read access and a local browser for the visual report.
 - name: jira
   path: private-skills/jira
@@ -546,7 +563,8 @@ skills:
   clients:
   - local-shell
   visibility: private
-  supporting_files: []
+  supporting_files:
+  - private-skills/jira/references/full-guidance.md
   requires_skills: []
   optional_skills: []
   referenced_skills: []
@@ -558,7 +576,8 @@ skills:
   environment_assumptions:
   - A separately configured local Jira CLI and private Jira instance.
   aliases: []
-  approximate_word_count: 1883
+  word_budget: 500
+  approximate_word_count: 268
   compatibility: Environment-specific; requires the locally configured private Jira CLI.
 - name: migrate-to-shoehorn
   path: migrate-to-shoehorn
@@ -641,12 +660,13 @@ skills:
   compatibility: Requires repository read access and a configured GitHub issue integration.
 - name: receiving-code-review
   path: receiving-code-review
-  description: Use when receiving code-review feedback that must be evaluated before implementation, especially when suggestions are ambiguous or technically questionable.
+  description: Use when review feedback must be understood, verified, prioritized, or challenged before implementation.
   invocation: automatic
   clients:
   - agent-skills
   visibility: public
-  supporting_files: []
+  supporting_files:
+  - receiving-code-review/references/full-guidance.md
   requires_skills: []
   optional_skills: []
   referenced_skills: []
@@ -655,7 +675,8 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 927
+  word_budget: 500
+  approximate_word_count: 316
   compatibility: Agent Skills compatible.
 - name: request-refactor-plan
   path: request-refactor-plan
@@ -807,6 +828,7 @@ skills:
   visibility: public
   supporting_files:
   - subagent-driven-development/implementer-prompt.md
+  - subagent-driven-development/references/full-guidance.md
   - subagent-driven-development/scripts/review-package
   - subagent-driven-development/scripts/sdd-workspace
   - subagent-driven-development/scripts/task-brief
@@ -836,7 +858,8 @@ skills:
   - subagents
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 3092
+  word_budget: 800
+  approximate_word_count: 382
   compatibility: Requires a client with subagent support and Bash.
 - name: systematic-debugging
   path: systematic-debugging
@@ -852,6 +875,7 @@ skills:
   - systematic-debugging/defense-in-depth.md
   - systematic-debugging/find-polluter.sh
   - systematic-debugging/root-cause-tracing.md
+  - systematic-debugging/references/full-guidance.md
   - systematic-debugging/test-academic.md
   - systematic-debugging/test-pressure-1.md
   - systematic-debugging/test-pressure-2.md
@@ -869,7 +893,8 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 1504
+  word_budget: 500
+  approximate_word_count: 343
   compatibility: Agent Skills compatible.
 - name: tech-debt-audit
   path: tech-debt-audit
@@ -881,6 +906,12 @@ skills:
   supporting_files:
   - tech-debt-audit/.gitignore
   - tech-debt-audit/README.md
+  - tech-debt-audit/references/full-guidance.md
+  - tech-debt-audit/references/installation.md
+  - tech-debt-audit/references/limitations.md
+  - tech-debt-audit/references/philosophy.md
+  - tech-debt-audit/references/report-template.md
+  - tech-debt-audit/references/stack-tooling.md
   requires_skills: []
   optional_skills: []
   referenced_skills: []
@@ -889,7 +920,8 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 1901
+  word_budget: 800
+  approximate_word_count: 324
   compatibility: Requires repository read access and permission to write the report file.
 - name: test-driven-development
   path: test-driven-development
@@ -899,6 +931,7 @@ skills:
   - agent-skills
   visibility: public
   supporting_files:
+  - test-driven-development/references/full-guidance.md
   - test-driven-development/testing-anti-patterns.md
   requires_skills: []
   optional_skills: []
@@ -908,7 +941,8 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 1496
+  word_budget: 500
+  approximate_word_count: 364
   compatibility: Agent Skills compatible.
 - name: to-issues
   path: to-issues
@@ -997,21 +1031,24 @@ skills:
   compatibility: Agent Skills compatible.
 - name: using-git-worktrees
   path: using-git-worktrees
-  description: Use when feature work or implementation-plan execution needs isolation from the current checkout.
+  description: Use when implementation work needs an isolated Git workspace or when an execution workflow requires isolation before changes begin.
   invocation: automatic
   clients:
   - agent-skills
   visibility: public
-  supporting_files: []
+  supporting_files:
+  - using-git-worktrees/references/full-guidance.md
   requires_skills: []
   optional_skills: []
   referenced_skills: []
   requires_tools: []
-  requires_commands: []
+  requires_commands:
+  - git
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 1149
+  word_budget: 800
+  approximate_word_count: 299
   compatibility: Requires Git worktree support or an equivalent client-native isolation mechanism.
 - name: using-superpowers
   path: using-superpowers
@@ -1067,6 +1104,7 @@ skills:
   visibility: public
   supporting_files:
   - writing-plans/plan-document-reviewer-prompt.md
+  - writing-plans/references/full-guidance.md
   requires_skills: []
   optional_skills:
   - executing-plans
@@ -1081,7 +1119,8 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 1068
+  word_budget: 800
+  approximate_word_count: 266
   compatibility: Agent Skills compatible.
 - name: writing-skills
   path: writing-skills
@@ -1095,7 +1134,13 @@ skills:
   - writing-skills/examples/CLAUDE_MD_TESTING.md
   - writing-skills/graphviz-conventions.dot
   - writing-skills/persuasion-principles.md
-  - writing-skills/render-graphs.js
+  - writing-skills/references/deployment-checklist.md
+  - writing-skills/references/description-optimisation.md
+  - writing-skills/references/full-guidance.md
+  - writing-skills/references/micro-testing.md
+  - writing-skills/references/rationalisation-patterns.md
+  - writing-skills/references/testing-methodology.md
+  - writing-skills/scripts/render-graphs.js
   - writing-skills/testing-skills-with-subagents.md
   requires_skills:
   - test-driven-development
@@ -1110,5 +1155,6 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 3807
+  word_budget: 500
+  approximate_word_count: 440
   compatibility: Agent Skills compatible.

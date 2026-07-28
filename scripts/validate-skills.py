@@ -162,6 +162,15 @@ def validate_frontmatter(
                     f"description is {len(description)} characters; maximum is 500",
                 )
             )
+        manifest_description = manifest_entry.get("description")
+        if isinstance(manifest_description, str) and manifest_description != description:
+            diagnostics.append(
+                diagnostic(
+                    "E036_MANIFEST_DESCRIPTION_MISMATCH",
+                    path,
+                    "manifest description does not match SKILL.md frontmatter",
+                )
+            )
 
     for key, value in frontmatter.items():
         expected = SUPPORTED_FRONTMATTER_TYPES.get(key)
@@ -232,6 +241,7 @@ def validate_content(
     visibility: str,
     known_names: set[str],
     known_aliases: set[str],
+    word_budget: int | None,
     diagnostics: list[Diagnostic],
 ) -> None:
     text = path.read_text(encoding="utf-8")
@@ -277,13 +287,13 @@ def validate_content(
             )
 
     word_count = len(text.split())
-    if path.name == "SKILL.md" and word_count > 1200:
+    effective_word_budget = word_budget or 800
+    if path.name == "SKILL.md" and word_count > effective_word_budget:
         diagnostics.append(
             diagnostic(
-                "W001_WORD_COUNT",
+                "E035_WORD_BUDGET",
                 relative_path,
-                f"main skill contains approximately {word_count} words",
-                severity="warning",
+                f"main skill contains approximately {word_count} words; budget is {effective_word_budget}",
             )
         )
 
@@ -567,7 +577,31 @@ def validate_catalogue(root: Path | str) -> list[Diagnostic]:
             )
             continue
 
-        frontmatter, _ = parse_frontmatter(skill_file, diagnostics)
+        frontmatter, skill_text = parse_frontmatter(skill_file, diagnostics)
+        actual_word_count = len(skill_text.split())
+        declared_word_count = entry.get("approximate_word_count")
+        if (
+            not isinstance(declared_word_count, int)
+            or isinstance(declared_word_count, bool)
+            or declared_word_count < 0
+        ):
+            diagnostics.append(
+                diagnostic(
+                    "E042_MANIFEST_SCHEMA",
+                    manifest_path,
+                    f"{name}.approximate_word_count must be a non-negative integer",
+                )
+            )
+        elif abs(declared_word_count - actual_word_count) > max(
+            5, round(actual_word_count * 0.05)
+        ):
+            diagnostics.append(
+                diagnostic(
+                    "E037_MANIFEST_WORD_COUNT_STALE",
+                    manifest_path,
+                    f"{name}.approximate_word_count is {declared_word_count}; current count is {actual_word_count}",
+                )
+            )
         if frontmatter is not None:
             validate_frontmatter(skill_file.relative_to(root), frontmatter, entry, diagnostics)
             description = frontmatter.get("description")
@@ -598,9 +632,31 @@ def validate_catalogue(root: Path | str) -> list[Diagnostic]:
                 )
 
         visibility = str(entry.get("visibility", "public"))
+        raw_word_budget = entry.get("word_budget")
+        word_budget = (
+            raw_word_budget
+            if isinstance(raw_word_budget, int) and not isinstance(raw_word_budget, bool) and raw_word_budget > 0
+            else None
+        )
+        if raw_word_budget is not None and word_budget is None:
+            diagnostics.append(
+                diagnostic(
+                    "E042_MANIFEST_SCHEMA",
+                    manifest_path,
+                    f"{name}.word_budget must be a positive integer",
+                )
+            )
         for markdown in markdown_files(skill_directory):
             validate_links(markdown, root, diagnostics)
-            validate_content(markdown, root, visibility, known_names, known_aliases, diagnostics)
+            validate_content(
+                markdown,
+                root,
+                visibility,
+                known_names,
+                known_aliases,
+                word_budget,
+                diagnostics,
+            )
             graphviz_blocks.extend((markdown, block) for block in validate_examples(markdown, root, diagnostics))
 
         for field in ("requires_skills", "optional_skills", "referenced_skills"):
