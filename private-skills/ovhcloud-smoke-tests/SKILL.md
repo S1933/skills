@@ -1,6 +1,7 @@
 ---
 name: ovhcloud-smoke-tests
-description: Workflow for fixing or updating OVHcloud smoke test patterns in the smoke-tests-patterns repo (ovhcloud.yml). Use when smoke tests fail with "Pattern ... NOT FOUND", or when the user wants to add/modify/work on smoke tests for www.ovhcloud.com pages.
+description: Use when OVHcloud smoke-test patterns fail literal HTML matching or the locale-specific pattern catalogue needs updating.
+compatibility: Environment-specific; requires the smoke-test repository and access to rendered locale pages.
 ---
 
 # OVHcloud smoke tests

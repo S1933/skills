@@ -1,6 +1,7 @@
 ---
 name: rr-sync-dev
 description: Use when syncing local project files to a configured development server through the rr Zsh function, or when rr produces unexpected results.
+compatibility: Environment-specific; requires Zsh, Git, rsync, SSH, and local RR_* configuration.
 ---
 
 # rr — rsync sync to remote development

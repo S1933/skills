@@ -1,6 +1,7 @@
 ---
 name: cdsv2
-description: Expert knowledge for OVH's CDSv2 CI/CD platform. Use when creating, editing, testing, and troubleshooting or reviewing `.cds/` YAML files, including workflows, actions, worker models, workflow templates, gates, matrices, services, Artifactory/Arsenal integrations, concurrency, and CDS expressions. Use for CDSv2-specific validation or migration whenever GitHub Actions or CDS v1 syntax might be confused with CDSv2.
+description: Use when authoring, reviewing, testing, troubleshooting, or migrating OVH CDSv2 workflow, action, worker-model, template, gate, matrix, service, or expression YAML.
+compatibility: Environment-specific; runtime validation requires access to OVH CDSv2 and cdsctl.
 ---
 
 # OVH CDSv2 CI/CD Skill

@@ -19,6 +19,7 @@ skills:
   environment_assumptions: []
   aliases: []
   approximate_word_count: 386
+  compatibility: Agent Skills compatible.
 - name: atomic-file-write
   path: atomic-file-write
   description: Use when replacing configuration, state, generated, or user-owned files where crashes, partial writes, permissions, concurrent readers, or durability can corrupt observable state.
@@ -37,6 +38,7 @@ skills:
   environment_assumptions: []
   aliases: []
   approximate_word_count: 408
+  compatibility: Agent Skills compatible.
 - name: binary-distribution
   path: binary-distribution
   description: Use when releasing compiled command-line tools across operating systems or architectures, including version metadata, archives, checksums, signing, installers, and reproducible release automation.
@@ -55,9 +57,10 @@ skills:
   environment_assumptions: []
   aliases: []
   approximate_word_count: 359
+  compatibility: Agent Skills compatible.
 - name: brainstorming
   path: brainstorming
-  description: You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation.
+  description: Use when creating features, components, functionality, or any behaviour change that requires intent and design to be clarified before implementation.
   invocation: automatic
   clients:
   - agent-skills
@@ -76,13 +79,15 @@ skills:
   requires_tools: []
   requires_commands:
   - node
-  client_features: []
+  client_features:
+  - optional visual companion
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 1553
+  approximate_word_count: 1561
+  compatibility: Agent Skills compatible; the optional visual companion requires Node.js and a local browser.
 - name: caveman
   path: caveman
-  description: Ultra-compressed communication mode. Cuts token usage ~75% by dropping filler, articles, and pleasantries while keeping full technical accuracy. Use when user says "caveman mode", "talk like caveman", "use caveman", "less tokens", "be brief", or invokes /caveman.
+  description: Use when the user explicitly requests caveman mode, ultra-compressed responses, fewer tokens, or unusually terse technical communication.
   invocation: automatic
   clients:
   - agent-skills
@@ -96,13 +101,14 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 274
+  approximate_word_count: 255
+  compatibility: Agent Skills compatible.
 - name: cdsv2
   path: private-skills/cdsv2
-  description: Expert knowledge for OVH's CDSv2 CI/CD platform. Use when creating, editing, testing, and troubleshooting or reviewing `.cds/` YAML files, including workflows, actions, worker models, workflow templates, gates, matrices, services, Artifactory/Arsenal integrations, concurrency, and CDS expressions. Use for CDSv2-specific validation or migration whenever GitHub Actions or CDS v1 syntax might be confused with CDSv2.
+  description: Use when authoring, reviewing, testing, troubleshooting, or migrating OVH CDSv2 workflow, action, worker-model, template, gate, matrix, service, or expression YAML.
   invocation: automatic
   clients:
-  - agent-skills
+  - local-shell
   visibility: private
   supporting_files:
   - private-skills/cdsv2/references/actions-models-templates.md
@@ -116,14 +122,16 @@ skills:
   requires_tools: []
   requires_commands:
   - cdsctl
-  client_features: []
+  client_features:
+  - private CDSv2 runtime
   environment_assumptions:
   - Access to an OVH CDSv2 installation when runtime validation is required.
   aliases: []
-  approximate_word_count: 1015
+  approximate_word_count: 993
+  compatibility: Environment-specific; runtime validation requires access to OVH CDSv2 and cdsctl.
 - name: codebase-design
   path: codebase-design
-  description: Shared vocabulary for designing deep modules. Use when the user wants to design or improve a module's interface, find deepening opportunities, decide where a seam goes, make code more testable or AI-navigable, or when another skill needs the deep-module vocabulary.
+  description: Use when designing or improving module interfaces, seams, information hiding, testability, navigability, or deep-module boundaries.
   invocation: automatic
   clients:
   - agent-skills
@@ -139,10 +147,11 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 865
+  approximate_word_count: 840
+  compatibility: Agent Skills compatible.
 - name: codex
   path: codex
-  description: Use when Codex needs a second opinion, verification, or deeper research on technical matters. This includes researching how a library or API works, confirming implementation approaches, verifying technical assumptions, understanding complex code patterns, or getting alternative perspectives on architectural decisions. The agent leverages the Codex CLI to provide independent analysis and validation.
+  description: Use when an independent technical second opinion, verification, repository analysis, or deeper library or API research would materially reduce uncertainty.
   invocation: automatic
   clients:
   - codex
@@ -159,10 +168,11 @@ skills:
   - Codex CLI
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 1096
+  approximate_word_count: 1074
+  compatibility: Requires the Codex CLI with exec and sandbox support.
 - name: decision-mapping
   path: decision-mapping
-  description: Turn a loose idea into a sequenced map of investigation tickets, then drive them to resolution one at a time.
+  description: Use when explicitly invoking /decision-mapping to turn a loose idea into sequenced investigation tickets whose findings drive later decisions.
   invocation: manual
   clients:
   - agent-skills
@@ -179,13 +189,16 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 593
+  approximate_word_count: 592
+  compatibility: Agent Skills compatible.
 - name: design-an-interface
   path: design-an-interface
-  description: Generate multiple radically different interface designs for a module using parallel sub-agents. Use when user wants to design an API, explore interface options, compare module shapes, or mentions "design it twice".
+  description: Use when exploring multiple substantially different API or module-interface designs before choosing one.
   invocation: automatic
   clients:
-  - agent-skills
+  - claude-code
+  - codex
+  - opencode
   visibility: public
   supporting_files: []
   requires_skills: []
@@ -193,16 +206,20 @@ skills:
   referenced_skills: []
   requires_tools: []
   requires_commands: []
-  client_features: []
+  client_features:
+  - parallel subagents
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 493
+  approximate_word_count: 483
+  compatibility: Requires a client with parallel subagent support.
 - name: dispatching-parallel-agents
   path: dispatching-parallel-agents
   description: Use when facing 2+ independent tasks that can be worked on without shared state or sequential dependencies
   invocation: automatic
   clients:
-  - agent-skills
+  - claude-code
+  - codex
+  - opencode
   visibility: public
   supporting_files: []
   requires_skills: []
@@ -210,13 +227,15 @@ skills:
   referenced_skills: []
   requires_tools: []
   requires_commands: []
-  client_features: []
+  client_features:
+  - parallel subagents
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 950
+  approximate_word_count: 958
+  compatibility: Requires a client with parallel subagent support.
 - name: domain-modeling
   path: domain-modeling
-  description: Build and sharpen a project's domain model. Use when the user wants to pin down domain terminology or a ubiquitous language, record an architectural decision, or when another skill needs to maintain the domain model.
+  description: Use when defining domain terminology, ubiquitous language, bounded contexts, or architectural decisions tied to a domain model.
   invocation: automatic
   clients:
   - agent-skills
@@ -232,7 +251,8 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 515
+  approximate_word_count: 497
+  compatibility: Agent Skills compatible.
 - name: embedded-fixtures
   path: embedded-fixtures
   description: Use when binaries or tests need deterministic templates, schemas, migrations, defaults, or sample files packaged with the executable through Go embed or an equivalent resource mechanism.
@@ -251,9 +271,10 @@ skills:
   environment_assumptions: []
   aliases: []
   approximate_word_count: 345
+  compatibility: Agent Skills compatible.
 - name: executing-plans
   path: executing-plans
-  description: Use when you have a written implementation plan to execute in a separate session with review checkpoints
+  description: Use when explicitly invoking /executing-plans with an approved implementation plan in a separate session.
   invocation: manual
   clients:
   - agent-skills
@@ -272,10 +293,11 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 379
+  approximate_word_count: 376
+  compatibility: Agent Skills compatible.
 - name: finishing-a-development-branch
   path: finishing-a-development-branch
-  description: Use when implementation is complete, all tests pass, and you need to decide how to integrate the work - guides completion of development work by presenting structured options for merge, PR, or cleanup
+  description: Use when implementation and verification are complete and the branch needs an explicit merge, pull-request, retention, or cleanup decision.
   invocation: automatic
   clients:
   - agent-skills
@@ -289,7 +311,8 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 1042
+  approximate_word_count: 1039
+  compatibility: Requires Git; pull-request options require a configured repository host integration.
 - name: git-guardrails-claude-code
   path: git-guardrails-claude-code
   description: Use when setting up Claude Code hooks to prevent pushes or destructive Git operations from running without user control.
@@ -314,7 +337,8 @@ skills:
   - Claude Code PreToolUse hooks
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 357
+  approximate_word_count: 368
+  compatibility: Requires Claude Code with Bash PreToolUse hooks and Python 3.
 - name: go-cli-conventions
   path: go-cli-conventions
   description: Use when creating, extending, or reviewing Go 1.24+ command-line applications, especially Cobra commands, flags, exit behavior, configuration, and testable CLI boundaries.
@@ -333,6 +357,7 @@ skills:
   environment_assumptions: []
   aliases: []
   approximate_word_count: 371
+  compatibility: Agent Skills compatible.
 - name: golden-file-testing
   path: golden-file-testing
   description: Use when testing generated text, configuration, serialization, templates, compiler output, or other stable artifacts whose complete shape matters more than isolated fields.
@@ -351,9 +376,10 @@ skills:
   environment_assumptions: []
   aliases: []
   approximate_word_count: 369
+  compatibility: Agent Skills compatible.
 - name: grill-me
   path: grill-me
-  description: A relentless interview to sharpen a plan or design.
+  description: Use when explicitly invoking /grill-me to stress-test and sharpen a plan or design.
   invocation: manual
   clients:
   - agent-skills
@@ -368,10 +394,11 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 20
+  approximate_word_count: 24
+  compatibility: Agent Skills compatible.
 - name: grill-with-docs
   path: grill-with-docs
-  description: A relentless interview to sharpen a plan or design, which also creates docs (ADR's and glossary) as we go.
+  description: Use when explicitly invoking /grill-with-docs to stress-test a plan while recording ADRs and a domain glossary.
   invocation: manual
   clients:
   - agent-skills
@@ -387,10 +414,11 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 34
+  approximate_word_count: 31
+  compatibility: Agent Skills compatible.
 - name: grilling
   path: grilling
-  description: Interview the user relentlessly about a plan or design. Use when the user wants to stress-test a plan before building, or uses any 'grill' trigger phrases.
+  description: Use when a plan or design needs a rigorous one-question-at-a-time stress test before implementation.
   invocation: automatic
   clients:
   - agent-skills
@@ -404,10 +432,11 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 102
+  approximate_word_count: 90
+  compatibility: Agent Skills compatible.
 - name: handoff
   path: handoff
-  description: Compact the current conversation into a handoff document for another agent to pick up.
+  description: Use when explicitly preparing the current conversation for another agent to continue with minimal context loss.
   invocation: manual
   clients:
   - agent-skills
@@ -421,10 +450,11 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 134
+  approximate_word_count: 136
+  compatibility: Agent Skills compatible.
 - name: implement
   path: implement
-  description: Implement a piece of work based on a PRD or set of issues.
+  description: Use when explicitly implementing work from an approved PRD, specification, or issue set.
   invocation: manual
   clients:
   - agent-skills
@@ -439,9 +469,10 @@ skills:
   environment_assumptions: []
   aliases: []
   approximate_word_count: 70
+  compatibility: Agent Skills compatible.
 - name: improve
   path: improve
-  description: Survey any codebase as a senior advisor and produce prioritized, self-contained implementation plans for OTHER models/agents to execute. Strictly read-only on source code — never implements, fixes, or refactors anything itself. Use when asked to audit a codebase, find improvement opportunities (bugs, security, performance, test coverage, tech debt, migrations, DX), suggest features or where to take the project next (roadmap, product direction), or generate handoff plans for another agent to implement. Unlike /tech-debt-audit (one broad debt report committed to the repo) and /improve-codebase-architecture (an architecture-only HTML report), the deliverable here is multiple self-contained per-opportunity handoff plans and the scope spans all improvement types.
+  description: Use when surveying a codebase for prioritized improvement opportunities across correctness, security, performance, testing, maintainability, developer experience, migrations, or product direction.
   invocation: automatic
   clients:
   - agent-skills
@@ -458,10 +489,11 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 2310
+  approximate_word_count: 2238
+  compatibility: Requires repository read access; parallel subagent support is recommended.
 - name: improve-codebase-architecture
   path: improve-codebase-architecture
-  description: Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick. Narrowly about architectural depth (deep modules, seams) using the /codebase-design vocabulary — unlike /tech-debt-audit (broad debt report file) or /improve (self-contained handoff plans for another agent to execute).
+  description: Use when explicitly auditing a codebase for deep-module, seam, interface, or information-hiding opportunities in an architecture-focused visual report.
   invocation: manual
   clients:
   - agent-skills
@@ -476,10 +508,12 @@ skills:
   - grilling
   requires_tools: []
   requires_commands: []
-  client_features: []
+  client_features:
+  - local browser
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 829
+  approximate_word_count: 812
+  compatibility: Requires repository read access and a local browser for the visual report.
 - name: jira
   path: private-skills/jira
   description: Use when a locally configured Jira CLI is required to inspect or mutate issues, comments, assignments, transitions, Tempo entries, or Confluence pages.
@@ -495,14 +529,15 @@ skills:
   requires_commands:
   - jira
   client_features:
-  - personal Jira CLI
+  - private Jira CLI
   environment_assumptions:
   - A separately configured local Jira CLI and private Jira instance.
   aliases: []
-  approximate_word_count: 1874
+  approximate_word_count: 1883
+  compatibility: Environment-specific; requires the locally configured private Jira CLI.
 - name: migrate-to-shoehorn
   path: migrate-to-shoehorn
-  description: Migrate test files from `as` type assertions to @total-typescript/shoehorn. Use when user mentions shoehorn, wants to replace `as` in tests, or needs partial test data.
+  description: Use when TypeScript tests use as assertions for partial fixtures and should migrate to @total-typescript/shoehorn.
   invocation: automatic
   clients:
   - agent-skills
@@ -516,13 +551,14 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 415
+  approximate_word_count: 405
+  compatibility: Agent Skills compatible.
 - name: ovhcloud-smoke-tests
   path: private-skills/ovhcloud-smoke-tests
-  description: Workflow for fixing or updating OVHcloud smoke test patterns in the smoke-tests-patterns repo (ovhcloud.yml). Use when smoke tests fail with "Pattern ... NOT FOUND", or when the user wants to add/modify/work on smoke tests for www.ovhcloud.com pages.
+  description: Use when OVHcloud smoke-test patterns fail literal HTML matching or the locale-specific pattern catalogue needs updating.
   invocation: automatic
   clients:
-  - agent-skills
+  - local-shell
   visibility: private
   supporting_files: []
   requires_skills: []
@@ -531,14 +567,16 @@ skills:
   requires_tools: []
   requires_commands:
   - python3
-  client_features: []
+  client_features:
+  - private repository and rendered pages
   environment_assumptions:
   - Access to the target smoke-test repository and rendered site pages.
   aliases: []
-  approximate_word_count: 532
+  approximate_word_count: 523
+  compatibility: Environment-specific; requires the smoke-test repository and access to rendered locale pages.
 - name: prototype
   path: prototype
-  description: Build a throwaway prototype to flesh out a design — a runnable terminal app for state/business-logic questions, or several radically different UI variations toggleable from one route.
+  description: Use when explicitly building a throwaway prototype to answer design questions about business logic, state transitions, or alternative user interfaces.
   invocation: manual
   clients:
   - agent-skills
@@ -551,13 +589,15 @@ skills:
   referenced_skills: []
   requires_tools: []
   requires_commands: []
-  client_features: []
+  client_features:
+  - optional local browser
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 501
+  approximate_word_count: 508
+  compatibility: Terminal prototypes are portable; visual UI mode requires Node.js and a local browser.
 - name: qa
   path: qa
-  description: Interactive QA session where user reports bugs or issues conversationally, and the agent files GitHub issues. Explores the codebase in the background for context and domain language. Use when user wants to report bugs, do QA, file issues conversationally, or mentions "QA session".
+  description: Use when the user wants a conversational QA session to report, investigate, and file reproducible software issues.
   invocation: automatic
   clients:
   - agent-skills
@@ -568,13 +608,15 @@ skills:
   referenced_skills: []
   requires_tools: []
   requires_commands: []
-  client_features: []
+  client_features:
+  - GitHub issue integration
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 803
+  approximate_word_count: 788
+  compatibility: Requires repository read access and a configured GitHub issue integration.
 - name: receiving-code-review
   path: receiving-code-review
-  description: Use when receiving code review feedback, before implementing suggestions, especially if feedback seems unclear or technically questionable - requires technical rigor and verification, not performative agreement or blind implementation. Governs how you respond to feedback you got — unlike /requesting-code-review (dispatches a reviewer subagent) and /review-scope (only gathers the diff to review).
+  description: Use when receiving code-review feedback that must be evaluated before implementation, especially when suggestions are ambiguous or technically questionable.
   invocation: automatic
   clients:
   - agent-skills
@@ -588,10 +630,11 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 960
+  approximate_word_count: 927
+  compatibility: Agent Skills compatible.
 - name: request-refactor-plan
   path: request-refactor-plan
-  description: Create a detailed refactor plan with tiny commits via user interview, then file it as a GitHub issue. Use when user wants to plan a refactor, create a refactoring RFC, or break a refactor into safe incremental steps.
+  description: Use when planning a risky or substantial refactor as safe incremental commits and a reviewable issue or RFC.
   invocation: automatic
   clients:
   - agent-skills
@@ -602,16 +645,20 @@ skills:
   referenced_skills: []
   requires_tools: []
   requires_commands: []
-  client_features: []
+  client_features:
+  - GitHub issue integration
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 441
+  approximate_word_count: 432
+  compatibility: Requires repository read access and a configured GitHub issue integration.
 - name: requesting-code-review
   path: requesting-code-review
-  description: Use when completing tasks, implementing major features, or before merging to verify work meets requirements. Dispatches a reviewer subagent with crafted context — unlike /review-scope (only gathers the diff to review) and /receiving-code-review (how to respond to feedback you got).
+  description: Use when implementation work needs an independent code review before completion, integration, or merge.
   invocation: automatic
   clients:
-  - agent-skills
+  - claude-code
+  - codex
+  - opencode
   visibility: public
   supporting_files:
   - requesting-code-review/code-reviewer.md
@@ -620,10 +667,12 @@ skills:
   referenced_skills: []
   requires_tools: []
   requires_commands: []
-  client_features: []
+  client_features:
+  - subagents
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 419
+  approximate_word_count: 400
+  compatibility: Requires a client with subagent support.
 - name: resolving-merge-conflicts
   path: resolving-merge-conflicts
   description: Use when you need to resolve an in-progress git merge/rebase conflict.
@@ -641,9 +690,10 @@ skills:
   environment_assumptions: []
   aliases: []
   approximate_word_count: 134
+  compatibility: Agent Skills compatible.
 - name: review-scope
   path: review-scope
-  description: Use at the start of any code review to establish the base branch and gather the full set of changes to review — committed, staged, unstaged, and relevant untracked work. A building block that only scopes the diff — unlike /requesting-code-review (dispatches a reviewer subagent) and /receiving-code-review (how to respond to feedback you got).
+  description: Use when beginning a code review that must include committed, staged, unstaged, and relevant untracked changes against the correct base.
   invocation: automatic
   clients:
   - agent-skills
@@ -657,7 +707,8 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 191
+  approximate_word_count: 162
+  compatibility: Requires Git repository access.
 - name: rr-sync-dev
   path: private-skills/rr-sync-dev
   description: Use when syncing local project files to a configured development server through the rr Zsh function, or when rr produces unexpected results.
@@ -681,7 +732,8 @@ skills:
   environment_assumptions:
   - A separately configured SSH host and remote project root.
   aliases: []
-  approximate_word_count: 306
+  approximate_word_count: 317
+  compatibility: Environment-specific; requires Zsh, Git, rsync, SSH, and local RR_* configuration.
 - name: schema-validation
   path: schema-validation
   description: Use when defining or reviewing validation for configuration files, API payloads, manifests, serialized models, cross-field invariants, or human-readable validation errors.
@@ -700,9 +752,10 @@ skills:
   environment_assumptions: []
   aliases: []
   approximate_word_count: 400
+  compatibility: Agent Skills compatible.
 - name: setup-pre-commit
   path: setup-pre-commit
-  description: Set up Husky pre-commit hooks with lint-staged (Prettier), type checking, and tests in the current repo. Use when user wants to add pre-commit hooks, set up Husky, configure lint-staged, or add commit-time formatting/typechecking/testing.
+  description: Use when adding or repairing Husky pre-commit automation for formatting, type checking, and tests in a JavaScript or TypeScript repository.
   invocation: automatic
   clients:
   - agent-skills
@@ -716,13 +769,16 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 333
+  approximate_word_count: 320
+  compatibility: Agent Skills compatible.
 - name: subagent-driven-development
   path: subagent-driven-development
   description: Use when executing implementation plans with independent tasks in the current session
   invocation: automatic
   clients:
-  - agent-skills
+  - claude-code
+  - codex
+  - opencode
   visibility: public
   supporting_files:
   - subagent-driven-development/implementer-prompt.md
@@ -743,10 +799,12 @@ skills:
   requires_tools: []
   requires_commands:
   - bash
-  client_features: []
+  client_features:
+  - subagents
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 3083
+  approximate_word_count: 3092
+  compatibility: Requires a client with subagent support and Bash.
 - name: systematic-debugging
   path: systematic-debugging
   description: Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes
@@ -777,9 +835,10 @@ skills:
   environment_assumptions: []
   aliases: []
   approximate_word_count: 1504
+  compatibility: Agent Skills compatible.
 - name: tech-debt-audit
   path: tech-debt-audit
-  description: Thorough, user-invoked tech debt and architecture audit of the current codebase. Produces TECH_DEBT_AUDIT.md with file-cited findings, severity, effort estimates, and a required "looks bad but is actually fine" section. Use when the user asks for a debt audit, codebase health check, architecture review, or code quality assessment of an entire repo. Does not auto-invoke. Unlike /improve (read-only handoff plans for another agent to execute) and /improve-codebase-architecture (architecture-depth-only HTML report), this writes one broad debt report file into the repo.
+  description: Use when explicitly requesting a broad repository-wide technical-debt, architecture, or code-health audit delivered as one evidence-backed report.
   invocation: manual
   clients:
   - agent-skills
@@ -795,7 +854,8 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 1951
+  approximate_word_count: 1901
+  compatibility: Requires repository read access and permission to write the report file.
 - name: test-driven-development
   path: test-driven-development
   description: Use when implementing any feature or bugfix, before writing implementation code
@@ -814,9 +874,10 @@ skills:
   environment_assumptions: []
   aliases: []
   approximate_word_count: 1496
+  compatibility: Agent Skills compatible.
 - name: to-issues
   path: to-issues
-  description: Break a plan, spec, or PRD into independently-grabbable issues on the project issue tracker using tracer-bullet vertical slices.
+  description: Use when explicitly converting an approved plan, specification, or PRD into independently assignable vertical-slice issues.
   invocation: manual
   clients:
   - agent-skills
@@ -828,13 +889,15 @@ skills:
   - triage
   requires_tools: []
   requires_commands: []
-  client_features: []
+  client_features:
+  - issue-tracker integration
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 533
+  approximate_word_count: 537
+  compatibility: Requires a configured project issue-tracker integration.
 - name: to-prd
   path: to-prd
-  description: Turn the current conversation into a PRD and publish it to the project issue tracker — no interview, just synthesis of what you've already discussed.
+  description: Use when explicitly publishing requirements already established in conversation as a PRD without another discovery interview.
   invocation: manual
   clients:
   - agent-skills
@@ -846,13 +909,15 @@ skills:
   - triage
   requires_tools: []
   requires_commands: []
-  client_features: []
+  client_features:
+  - issue-tracker integration
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 494
+  approximate_word_count: 492
+  compatibility: Requires a configured project issue-tracker integration.
 - name: triage
   path: triage
-  description: Move issues through a state machine of triage roles — categorise, reproduce, grill if needed, and write agent-ready briefs.
+  description: Use when explicitly moving issue reports through categorisation, reproduction, clarification, and agent-ready briefing.
   invocation: manual
   clients:
   - agent-skills
@@ -867,13 +932,15 @@ skills:
   - grilling
   requires_tools: []
   requires_commands: []
-  client_features: []
+  client_features:
+  - issue-tracker integration
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 733
+  approximate_word_count: 734
+  compatibility: Requires a configured project issue-tracker integration.
 - name: ubiquitous-language
   path: ubiquitous-language
-  description: Extract a DDD-style ubiquitous language glossary from the current conversation, flagging ambiguities and proposing canonical terms. Saves to UBIQUITOUS_LANGUAGE.md. Use when user wants to define domain terms, build a glossary, harden terminology, create a ubiquitous language, or mentions "domain model" or "DDD".
+  description: Use when explicitly extracting or refining canonical domain terminology, definitions, ambiguities, and discouraged synonyms from the conversation.
   invocation: manual
   clients:
   - agent-skills
@@ -887,10 +954,11 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 703
+  approximate_word_count: 678
+  compatibility: Agent Skills compatible.
 - name: using-git-worktrees
   path: using-git-worktrees
-  description: Use when starting feature work that needs isolation from current workspace or before executing implementation plans - ensures an isolated workspace exists via native tools or git worktree fallback
+  description: Use when feature work or implementation-plan execution needs isolation from the current checkout.
   invocation: automatic
   clients:
   - agent-skills
@@ -904,10 +972,11 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 1154
+  approximate_word_count: 1149
+  compatibility: Requires Git worktree support or an equivalent client-native isolation mechanism.
 - name: using-superpowers
   path: using-superpowers
-  description: Use when starting any conversation - establishes how to find and use skills, requiring skill invocation before ANY response including clarifying questions
+  description: Use when explicitly invoking /using-superpowers at the start of a conversation where repository skills are available.
   invocation: manual
   clients:
   - agent-skills
@@ -927,10 +996,11 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 483
+  approximate_word_count: 477
+  compatibility: Agent Skills compatible.
 - name: verification-before-completion
   path: verification-before-completion
-  description: Use when about to claim work is complete, fixed, or passing, before committing or creating PRs - requires running verification commands and confirming output before making any success claims; evidence before assertions always
+  description: Use when about to claim work is complete, fixed, passing, ready to commit, or ready to merge.
   invocation: automatic
   clients:
   - agent-skills
@@ -944,7 +1014,8 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 668
+  approximate_word_count: 652
+  compatibility: Agent Skills compatible.
 - name: writing-plans
   path: writing-plans
   description: Use when you have a spec or requirements for a multi-step task, before touching code
@@ -966,6 +1037,7 @@ skills:
   environment_assumptions: []
   aliases: []
   approximate_word_count: 1068
+  compatibility: Agent Skills compatible.
 - name: writing-skills
   path: writing-skills
   description: Use when creating new skills, editing existing skills, or verifying skills work before deployment
@@ -992,3 +1064,4 @@ skills:
   environment_assumptions: []
   aliases: []
   approximate_word_count: 3807
+  compatibility: Agent Skills compatible.

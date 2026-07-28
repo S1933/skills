@@ -28,12 +28,13 @@ LEGACY_ALIAS_REFERENCE = re.compile(
     re.IGNORECASE,
 )
 PRIVATE_PATTERNS = (
-    re.compile(r"/Users/[A-Za-z0-9._-]+"),
-    re.compile(r"/home/[A-Za-z0-9._-]+"),
+    re.compile(r"/(?:Users|home)/[A-Za-z0-9._-]+"),
     re.compile(r"~/(?:Projects|go)/"),
     re.compile(r"\b[A-Za-z0-9.-]+\.internal(?:\.[A-Za-z0-9.-]+)?\b", re.IGNORECASE),
     re.compile(r"\b[A-Za-z0-9.-]+\.corp\b", re.IGNORECASE),
-    re.compile(r"\b(?:gw2sdev|stash\.ovh\.net|core\.ovh\.net|ocms\.ovhcloud\.tools)\b", re.IGNORECASE),
+    re.compile(r"\b[A-Za-z0-9.-]+\.k8s\.[A-Za-z0-9.-]+\b", re.IGNORECASE),
+    re.compile(r"\b[A-Za-z0-9.-]*sdev[A-Za-z0-9.-]*\.[A-Za-z]{2,}\b", re.IGNORECASE),
+    re.compile(r"\b[A-Za-z0-9.-]+\.ovh\.net\b", re.IGNORECASE),
 )
 SUPPORTED_FRONTMATTER_TYPES = {
     "name": str,
@@ -180,6 +181,18 @@ def validate_frontmatter(
                 f"manifest invocation {invocation!r} does not match frontmatter {expected_invocation!r}",
             )
         )
+
+    clients = manifest_entry.get("clients", ["agent-skills"])
+    if isinstance(clients, list) and any(client != "agent-skills" for client in clients):
+        compatibility = frontmatter.get("compatibility")
+        if not isinstance(compatibility, str) or not compatibility.strip():
+            diagnostics.append(
+                diagnostic(
+                    "E026_COMPATIBILITY_REQUIRED",
+                    path,
+                    "non-portable skills must declare frontmatter compatibility",
+                )
+            )
 
 
 def markdown_files(skill_directory: Path) -> list[Path]:
@@ -478,6 +491,15 @@ def validate_catalogue(root: Path | str) -> list[Diagnostic]:
                 diagnostic("E001_SKILL_FILE_MISSING", skill_file, "manifest path has no SKILL.md")
             )
             continue
+        if skill_file.is_symlink() and not skill_file.resolve().is_relative_to(root):
+            diagnostics.append(
+                diagnostic(
+                    "E027_SYMLINK_OUTSIDE",
+                    skill_file.relative_to(root),
+                    f"skill symlink escapes repository: {skill_file.readlink()}",
+                )
+            )
+            continue
 
         frontmatter, _ = parse_frontmatter(skill_file, diagnostics)
         if frontmatter is not None:
@@ -487,12 +509,25 @@ def validate_catalogue(root: Path | str) -> list[Diagnostic]:
                 descriptions.append((name, description, skill_file.relative_to(root)))
 
         for supporting in entry.get("supporting_files", []):
-            if isinstance(supporting, str) and not (root / supporting).exists():
+            supporting_path = root / supporting if isinstance(supporting, str) else None
+            if supporting_path is not None and not supporting_path.exists():
                 diagnostics.append(
                     diagnostic(
                         "E014_SUPPORTING_FILE_MISSING",
                         manifest_path,
                         f"supporting file does not exist: {supporting}",
+                    )
+                )
+            elif (
+                supporting_path is not None
+                and supporting_path.is_symlink()
+                and not supporting_path.resolve().is_relative_to(root)
+            ):
+                diagnostics.append(
+                    diagnostic(
+                        "E027_SYMLINK_OUTSIDE",
+                        supporting_path.relative_to(root),
+                        f"supporting-file symlink escapes repository: {supporting_path.readlink()}",
                     )
                 )
 
