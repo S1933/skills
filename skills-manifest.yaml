@@ -517,16 +517,18 @@ skills:
   - improve/references/closing-the-loop.md
   - improve/references/full-guidance.md
   - improve/references/plan-template.md
-  requires_skills: []
+  requires_skills:
+  - repository-reconnaissance
   optional_skills: []
-  referenced_skills: []
+  referenced_skills:
+  - repository-reconnaissance
   requires_tools: []
   requires_commands: []
   client_features: []
   environment_assumptions: []
   aliases: []
   word_budget: 800
-  approximate_word_count: 348
+  approximate_word_count: 335
   compatibility: Requires repository read access; parallel subagent support is recommended.
 - name: improve-codebase-architecture
   path: improve-codebase-architecture
@@ -541,12 +543,14 @@ skills:
   requires_skills:
   - codebase-design
   - grilling
+  - repository-reconnaissance
   optional_skills:
   - domain-modeling
   referenced_skills:
   - codebase-design
   - domain-modeling
   - grilling
+  - repository-reconnaissance
   requires_tools: []
   requires_commands: []
   client_features:
@@ -554,7 +558,7 @@ skills:
   environment_assumptions: []
   aliases: []
   word_budget: 800
-  approximate_word_count: 268
+  approximate_word_count: 299
   compatibility: Requires repository read access and a local browser for the visual report.
 - name: jira
   path: private-skills/jira
@@ -719,6 +723,28 @@ skills:
   aliases: []
   approximate_word_count: 400
   compatibility: Requires a client with subagent support.
+- name: repository-reconnaissance
+  path: repository-reconnaissance
+  description: Use when an audit, review, plan, or unfamiliar repository task needs an evidence-based map of instructions, architecture, commands, history, and inspectable scope before conclusions are drawn.
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files:
+  - references/evidence-standard.md
+  - references/execution-safety.md
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands:
+  - git
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  word_budget: 500
+  approximate_word_count: 297
+  compatibility: Agent Skills compatible.
 - name: resolving-merge-conflicts
   path: resolving-merge-conflicts
   description: Use when you need to resolve an in-progress git merge/rebase conflict.
@@ -912,16 +938,18 @@ skills:
   - tech-debt-audit/references/philosophy.md
   - tech-debt-audit/references/report-template.md
   - tech-debt-audit/references/stack-tooling.md
-  requires_skills: []
+  requires_skills:
+  - repository-reconnaissance
   optional_skills: []
-  referenced_skills: []
+  referenced_skills:
+  - repository-reconnaissance
   requires_tools: []
   requires_commands: []
   client_features: []
   environment_assumptions: []
   aliases: []
   word_budget: 800
-  approximate_word_count: 324
+  approximate_word_count: 314
   compatibility: Requires repository read access and permission to write the report file.
 - name: test-driven-development
   path: test-driven-development
