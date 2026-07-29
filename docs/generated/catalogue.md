@@ -433,6 +433,19 @@ Use when beginning a code review that must include committed, staged, unstaged, 
 - Compatibility: Requires Git repository access.
 - Main-file words: approximately 162
 
+### `scaleflex-api`
+
+Use when integrating the Scaleflex, Filerobot, or Cloudimage API — searching DAM assets by metadata, uploading files, running Visual AI models, or invalidating CDN cache.
+
+- Path: `scaleflex-api`
+- Invocation: automatic
+- Clients: agent-skills
+- Required skills: none
+- Optional skills: none
+- Commands: none
+- Compatibility: Agent Skills compatible.
+- Main-file words: approximately 428
+
 ### `schema-validation`
 
 Use when defining or reviewing validation for configuration files, API payloads, manifests, serialized models, cross-field invariants, or human-readable validation errors.

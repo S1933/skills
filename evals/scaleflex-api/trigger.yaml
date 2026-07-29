@@ -1,0 +1,96 @@
+skill: scaleflex-api
+description: >-
+  Use when integrating the Scaleflex, Filerobot, or Cloudimage API — searching
+  DAM assets by metadata, uploading files, running Visual AI models, or
+  invalidating CDN cache.
+cases:
+- name: search-assets-by-metadata
+  prompt: >-
+    I need to fetch every image tagged as an illustration for the Bare Metal
+    product from our Filerobot DAM. How do I build that query?
+  tags:
+  - positive
+  expected:
+    should_trigger: true
+
+- name: upload-script
+  prompt: >-
+    Write a Node script that uploads a folder of images to Scaleflex and applies
+    metadata to each one after upload.
+  tags:
+  - positive
+  expected:
+    should_trigger: true
+
+- name: auth-confusion
+  prompt: >-
+    My calls to ai.scaleflex.com keep returning 401 but the same key works
+    against api.filerobot.com. What am I getting wrong?
+  tags:
+  - positive
+  expected:
+    should_trigger: true
+
+- name: cdn-url-stability
+  prompt: >-
+    We're baking https://ourtoken.filerobot.com/... URLs into a static build.
+    Is that safe, or should we be storing something else?
+  tags:
+  - positive
+  expected:
+    should_trigger: true
+
+- name: taxonomy-design
+  prompt: >-
+    We're about to create the custom metadata fields for our Filerobot project.
+    Anything we should check before we commit to the field names?
+  tags:
+  - positive
+  expected:
+    should_trigger: true
+
+- name: generic-cdn-question
+  prompt: >-
+    What's the difference between a pull CDN and a push CDN, and when would I
+    pick each one?
+  tags:
+  - negative
+  expected:
+    should_trigger: false
+
+- name: different-dam-vendor
+  prompt: >-
+    Help me wire up the Cloudinary upload widget in our React admin panel.
+  tags:
+  - negative
+  - collision
+  expected:
+    should_trigger: false
+
+- name: conceptual-dam-explanation
+  prompt: >-
+    Explain to a non-technical stakeholder what a digital asset management
+    system is for.
+  tags:
+  - negative
+  expected:
+    should_trigger: false
+
+- name: image-optimisation-no-vendor
+  prompt: >-
+    Our hero images are 4 MB each. What's the right way to serve responsive
+    images from an Astro build?
+  tags:
+  - negative
+  - ambiguous
+  expected:
+    should_trigger: false
+
+- name: unrelated-api-work
+  prompt: >-
+    Add pagination to the /v5/orders endpoint in our internal billing service.
+  tags:
+  - negative
+  - collision
+  expected:
+    should_trigger: false

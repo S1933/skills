@@ -809,6 +809,27 @@ skills:
   aliases: []
   approximate_word_count: 389
   compatibility: Environment-specific; requires Zsh, Git, rsync, SSH, and local RR_* configuration.
+- name: scaleflex-api
+  path: scaleflex-api
+  description: Use when integrating the Scaleflex, Filerobot, or Cloudimage API — searching DAM assets by metadata, uploading files, running Visual AI models, or invalidating CDN cache.
+  invocation: automatic
+  clients:
+  - agent-skills
+  visibility: public
+  supporting_files:
+  - scaleflex-api/references/search-grammar.md
+  - scaleflex-api/references/endpoints.md
+  - scaleflex-api/references/upload-and-delivery.md
+  requires_skills: []
+  optional_skills: []
+  referenced_skills: []
+  requires_tools: []
+  requires_commands: []
+  client_features: []
+  environment_assumptions: []
+  aliases: []
+  approximate_word_count: 428
+  compatibility: Agent Skills compatible.
 - name: schema-validation
   path: schema-validation
   description: Use when defining or reviewing validation for configuration files, API payloads, manifests, serialized models, cross-field invariants, or human-readable validation errors.
