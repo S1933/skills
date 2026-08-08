@@ -20,6 +20,7 @@ flowchart LR
 | embedded-fixtures | — | — |
 | go-cli-conventions | — | — |
 | golden-file-testing | — | — |
+| i-have-adhd | — | — |
 | jira | — | — |
 | ovhcloud-smoke-tests | — | — |
 | repository-reconnaissance | — | — |
