@@ -95,19 +95,6 @@ Use when testing generated text, configuration, serialization, templates, compil
 - Compatibility: Agent Skills compatible.
 - Main-file words: approximately 369
 
-### `i-have-adhd`
-
-Use when explicitly invoking /i-have-adhd to shape every response for a reader with ADHD — lead with the next action, number multi-step work, suppress tangents, restate state across turns, and make completed work visible.
-
-- Path: `i-have-adhd`
-- Invocation: manual
-- Clients: agent-skills
-- Required skills: none
-- Optional skills: none
-- Commands: none
-- Compatibility: Agent Skills compatible. Requires a client that supports persisted session rules.
-- Main-file words: approximately 517
-
 ### `repository-reconnaissance`
 
 Use when an audit, review, plan, or unfamiliar repository task needs an evidence-based map of instructions, architecture, commands, history, and inspectable scope before conclusions are drawn.

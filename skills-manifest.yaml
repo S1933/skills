@@ -166,24 +166,6 @@ skills:
   aliases: []
   approximate_word_count: 369
   compatibility: Agent Skills compatible.
-- name: i-have-adhd
-  path: i-have-adhd
-  description: Use when explicitly invoking /i-have-adhd to shape every response for a reader with ADHD — lead with the next action, number multi-step work, suppress tangents, restate state across turns, and make completed work visible.
-  invocation: manual
-  clients:
-  - agent-skills
-  visibility: public
-  supporting_files: []
-  requires_skills: []
-  optional_skills: []
-  referenced_skills: []
-  requires_tools: []
-  requires_commands: []
-  client_features: []
-  environment_assumptions: []
-  aliases: []
-  approximate_word_count: 517
-  compatibility: Agent Skills compatible. Requires a client that supports persisted session rules.
 - name: jira
   path: private-skills/jira
   description: Use when a locally configured Jira CLI is required to inspect or mutate issues, comments, assignments, transitions, Tempo entries, or Confluence pages.
