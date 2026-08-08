@@ -288,19 +288,18 @@ def validate_content(
     text = path.read_text(encoding="utf-8")
     relative_path = path.relative_to(root)
 
-    if visibility == "public":
-        for pattern in PRIVATE_PATTERNS:
-            match = pattern.search(text)
-            if match:
-                diagnostics.append(
-                    diagnostic(
-                        "E018_PRIVATE_LITERAL",
-                        relative_path,
-                        f"public skill contains a private path or hostname matching {pattern.pattern!r}",
-                        line=text.count("\n", 0, match.start()) + 1,
-                    )
+    for pattern in PRIVATE_PATTERNS:
+        match = pattern.search(text)
+        if match:
+            diagnostics.append(
+                diagnostic(
+                    "E018_PRIVATE_LITERAL",
+                    relative_path,
+                    f"skill contains a private path or hostname matching {pattern.pattern!r}",
+                    line=text.count("\n", 0, match.start()) + 1,
                 )
-                break
+            )
+            break
 
     if "--dangerously-bypass-approvals-and-sandbox" in text:
         elevated = text.find("## Elevated execution")

@@ -248,7 +248,7 @@ skills:
   client_features: []
   environment_assumptions: []
   aliases: []
-  approximate_word_count: 315
+  approximate_word_count: 409
   compatibility: Requires Git repository access.
 - name: rr-sync-dev
   path: private-skills/rr-sync-dev
